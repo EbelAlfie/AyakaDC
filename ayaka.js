@@ -11,7 +11,8 @@ class Ayaka {
     async reply(interaction) {
         //Reply based on character ai as brain
         console.log(`${interaction}`) ;
-        await interaction.reply("Hai juga")
+        if (interaction.author.bot) return 
+    await interaction.channel.send("Hello") ;
     }
 }
 
