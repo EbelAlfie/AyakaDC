@@ -1,15 +1,17 @@
 class Ayaka {
-    constructor() {}
+    constructor() {
+        //this.brain = new CharacterAi() ;
+    }
 
     onReady(client) {
         console.log(`Logged in as ${client.user.tag}`) ;
         //log in to character ai
     }
 
-    reply(interaction) {
+    async reply(interaction) {
         //Reply based on character ai as brain
-        if (interaction === "Hei") 
-            interaction.reply("Hai juga")
+        console.log(`${interaction}`) ;
+        await interaction.reply("Hai juga")
     }
 }
 
