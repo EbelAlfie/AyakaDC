@@ -1,6 +1,6 @@
 const {Client, GatewayIntentBits, Events} = require("discord.js") ;
-const Ayaka = require("./ayaka.js") ;
-const { ayakaDiscord, ayakaBrain, userAccessToken } = 
+const Ayaka = require("./Soul.js") ;
+const { ayakaDiscord } = 
     require("./config/config.json") ;
 
 const client = new Client({ intents: [
@@ -10,7 +10,7 @@ const client = new Client({ intents: [
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.DirectMessageTyping,
 ] }) 
-const ayaka = new Ayaka(ayakaBrain, userAccessToken);
+const ayaka = new Ayaka();
 
 client.once(Events.ClientReady, () => ayaka.onReady(client)) ;
 client.on(Events.MessageCreate, ayaka.reply) ;

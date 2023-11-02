@@ -1,7 +1,5 @@
-class Ayaka {
-    constructor(config) {
-        this.ayakaId = config.ayakaId ;
-        this.userId = config.userId ;
+class Soul {
+    constructor() {
         this.brain = new CharacterAi() ;
     }
 
@@ -19,4 +17,4 @@ class Ayaka {
     }
 }
 
-module.exports = Ayaka ;
+module.exports = Soul ;
