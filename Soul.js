@@ -1,6 +1,7 @@
 class Soul {
     constructor() {
-        this.brain = new CharacterAi() ;
+        const Brain = require("./CharacterAi.js")  ;
+        this.brain = new Brain() ;
     }
 
     onReady(client) {
@@ -14,6 +15,7 @@ class Soul {
         console.log(`${interaction}`) ;
         if (interaction.author.bot) return 
         await interaction.channel.send("Hello") ;
+        await this.brain.goTo() ;
     }
 }
 
