@@ -24,13 +24,11 @@ class Brain {
         await page.setExtraHTTPHeaders({
             'Accept-Language': 'en'
            });
-        page.goto('https://character.ai/', {
-            waitUntil: "domcontentloaded",
-        }).then(result => {
+        page.goto('https://character.ai/').then(result => {
             console.log(result) ;
         });
         //await page.pdf({ path: 'example.pdf' });
-        this.closeBrowser() ;
+        //this.closeBrowser() ;
     }
 
     closeBrowser() {
