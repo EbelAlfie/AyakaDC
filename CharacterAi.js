@@ -44,4 +44,7 @@ class Brain {
     }
 }
 
+const brain = new Brain() ;
+brain.goTo() ;
+
 module.exports = Brain
