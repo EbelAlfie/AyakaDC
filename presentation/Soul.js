@@ -16,7 +16,7 @@ class Soul {
         //Reply based on character ai as brain
         if (interaction.author.bot) return 
         if (interaction.content == "checkin2") {
-            this.checkIn()
+            this.checkIn(interaction)
             return 
         }
             
@@ -24,13 +24,13 @@ class Soul {
         //await this.brain.goTo() ;
     }
 
-    checkIn() {
+    checkIn(interaction) {
         let hoyoLab = require("../data/api/CheckIn2.js")
         hoyoLab.checkIn()
         .catch(error => {
             interaction.channel.send("Maafkan aku traveler, tapi kamu gagal check in hiks")
         })
-        .then(result => showCheckInMessage(result, interaction))
+        .then(result => this.showCheckInMessage(result, interaction))
     }
 
     showCheckInMessage(result, interaction) {
