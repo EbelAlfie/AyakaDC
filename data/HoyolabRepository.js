@@ -1,10 +1,18 @@
 class HoyolabRepository {
+    time = null
+    timerId = "check_in"
 
     constructor() {}
 
+    setCheckInHour() {
+        clearInterval(this.timerId) 
+    }
 
     remindCheckIn() {
-
+        setInterval(() => {
+            let hourNow = new Date().getHours()
+            if (this.time == hourNow) this.checkIn()
+        }, 60000)
     }
 
     checkIn() {
