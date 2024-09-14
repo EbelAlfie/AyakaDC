@@ -24,4 +24,4 @@ class HoyolabRepository {
 
 }
 
-export const hoyoRepository  =  new HoyolabRepository()
+export const hoyoRepository = new HoyolabRepository()

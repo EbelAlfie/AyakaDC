@@ -21,11 +21,10 @@ async function checkInPrem() {
     },
     "body": "{\"act_id\":\"e202102251931481\"}",
     "method": "POST"
-  }).then(result => {
-    console.log(`HOREEE`, result)
-  }).catch(error => {
-    console.log(`Error ${error}`)
   })
+  .then(result => result.json())
 }
 
-module.exports = checkInPrem
+checkInPrem()
+
+module.exports = { checkInPrem }

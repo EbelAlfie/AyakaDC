@@ -12,29 +12,35 @@ class Soul {
         this.brain.bringToLive() ;
     }
 
-    checkIn1 = require("../data/api/CheckIn.js")
-    checkIn2 = require("../data/api/CheckIn2.js")
     async reply(interaction) {
         //Reply based on character ai as brain
         if (interaction.author.bot) return 
-
-        console.log(`${interaction.content}`) 
-        console.log(interaction.content === 'checkin1') 
-        
-        if (interaction.content == "checkin1") {
-            let response = await this.checkIn1()
-            interaction.channel.send(response)
-            return 
-        }
-            
         if (interaction.content == "checkin2") {
-            let response = await this.checkIn2()
-            interaction.channel.send(response)
+            this.checkIn()
             return 
         }
             
         await interaction.channel.send("Hello") ;
         //await this.brain.goTo() ;
+    }
+
+    checkIn() {
+        let hoyoLab = require("../data/api/CheckIn2.js")
+        hoyoLab.checkIn()
+        .catch(error => {
+            interaction.channel.send("Maafkan aku traveler, tapi kamu gagal check in hiks")
+        })
+        .then(result => showCheckInMessage(result, interaction))
+    }
+
+    showCheckInMessage(result, interaction) {
+        let message = ""
+        if (result.retcode != 0)
+            message = "Sukses check in ya, traveler sayang"
+        else 
+            message = result.message
+
+        interaction.channel.send(result.message)
     }
 
     showSpinner(data) {

@@ -29,9 +29,9 @@ const requestOptions = {
 
 async function checkIn() {
   return fetch("https://sg-hk4e-api.hoyolab.com/event/sol/sign?lang=en-us", requestOptions)
-  .then((response) => response.text())
-  .then((result) => console.log(result))
-  .catch((error) => console.error(error));
+  .then(result => result.json())
 }
 
-module.exports = checkIn 
+checkIn()
+
+module.exports = { checkIn } 
