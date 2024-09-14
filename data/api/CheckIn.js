@@ -1,4 +1,5 @@
-fetch("https://sg-hk4e-api.hoyolab.com/event/sol/sign?lang=en-us", {
+async function checkInPrem() {
+  return fetch("https://sg-hk4e-api.hoyolab.com/event/sol/sign?lang=en-us", {
     "headers": {
         "accept": "application/json, text/plain, */*",
         "accept-language": "en-US,en;q=0.9,id;q=0.8",
@@ -20,8 +21,11 @@ fetch("https://sg-hk4e-api.hoyolab.com/event/sol/sign?lang=en-us", {
     },
     "body": "{\"act_id\":\"e202102251931481\"}",
     "method": "POST"
-}).then(result => {
+  }).then(result => {
     console.log(`HOREEE`, result)
-}).catch(error => {
+  }).catch(error => {
     console.log(`Error ${error}`)
-})
+  })
+}
+
+module.exports = checkInPrem

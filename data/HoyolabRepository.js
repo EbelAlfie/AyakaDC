@@ -4,8 +4,9 @@ class HoyolabRepository {
 
     constructor() {}
 
-    setCheckInHour() {
+    setCheckInHour(checkInTime) {
         clearInterval(this.timerId) 
+        let time = new Date.parse(checkInTime) 
     }
 
     remindCheckIn() {

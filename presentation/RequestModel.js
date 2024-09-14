@@ -60,6 +60,4 @@ const messageRequest = {
     voice_enabled: false
 }
 
-
-
 module.exports = messageRequest, messageRequestHeader 
