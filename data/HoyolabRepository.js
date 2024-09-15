@@ -1,4 +1,6 @@
 class HoyolabRepository {
+    api = require("./api/CheckIn2.js")
+
     time = null
     timerId = "check_in"
 
@@ -17,11 +19,11 @@ class HoyolabRepository {
     }
 
     checkIn() {
-        let url = 'https://sg-hk4e-api.hoyolab.com/event/sol/sign?lang=en-us'
-
-        //axios.post(url, data)
+        return this.api.checkIn()
     }
 
 }
 
-export const hoyoRepository = new HoyolabRepository()
+const hoyoRepository = new HoyolabRepository()
+
+module.exports = hoyoRepository

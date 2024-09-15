@@ -32,6 +32,4 @@ async function checkIn() {
   .then(result => result.json())
 }
 
-checkIn()
-
 module.exports = { checkIn } 

@@ -25,6 +25,4 @@ async function checkInPrem() {
   .then(result => result.json())
 }
 
-checkInPrem()
-
 module.exports = { checkInPrem }

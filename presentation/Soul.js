@@ -1,6 +1,6 @@
-const checkIn = require("../data/api/CheckIn2.js");
-
 class Soul {
+    hoyoRepository = require("../data/HoyolabRepository.js")
+
     constructor() {
         const Brain = require("./CharacterAi.js")  ;
         this.brain = new Brain() ;
@@ -24,9 +24,8 @@ class Soul {
         //await this.brain.goTo() ;
     }
 
-    checkIn(interaction) {
-        let hoyoLab = require("../data/api/CheckIn2.js")
-        hoyoLab.checkIn()
+    async checkIn(interaction) {
+        this.hoyoRepository.checkIn()
         .catch(error => {
             interaction.channel.send("Maafkan aku traveler, tapi kamu gagal check in hiks")
         })
@@ -35,7 +34,7 @@ class Soul {
 
     showCheckInMessage(result, interaction) {
         let message = ""
-        if (result.retcode != 0)
+        if (result.retcode == 0)
             message = "Sukses check in ya, traveler sayang"
         else 
             message = result.message
@@ -49,18 +48,7 @@ class Soul {
 				new MessageSelectMenu()
 					.setCustomId(id)
 					.setPlaceholder(defaultValue)
-					.addOptions([
-						{
-							label: 'Select me',
-							description: 'This is a description',
-							value: 'first_option',
-						},
-						{
-							label: 'You can select me too',
-							description: 'This is also a description',
-							value: 'second_option',
-						},
-					]),
+					.addOptions(),
 			);
     }
 }
