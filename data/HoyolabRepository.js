@@ -1,6 +1,3 @@
-const NotLoggedIn = -100
-const AlreadyCheckIn = -5003
-
 class HoyolabRepository {
     api = require("./api/CheckIn2.js")
 
