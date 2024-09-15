@@ -8,12 +8,12 @@ class Soul {
 
     onReady(client) {
         console.log(`Logged in as ${client.user.tag}`) ;
+        
         //log in to character ai
         this.brain.bringToLive() ;
     }
 
     async reply(interaction) {
-        //Reply based on character ai as brain
         if (interaction.author.bot) return 
         if (interaction.content == "checkin2") {
             this.checkIn(interaction)
@@ -34,12 +34,12 @@ class Soul {
 
     showCheckInMessage(result, interaction) {
         let message = ""
-        if (result.retcode == 0)
-            message = "Sukses check in ya, traveler sayang"
-        else 
+        if (result.retcode < 0)
             message = result.message
+        else 
+            message = "Sukses check in ya, traveler sayang"
 
-        interaction.channel.send(result.message)
+        interaction.channel.send(message)
     }
 
     showSpinner(data) {
