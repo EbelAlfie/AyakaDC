@@ -25,11 +25,12 @@ class Soul {
     }
 
     async checkIn(interaction) {
-        this.hoyoRepository.checkIn()
-        .catch(error => {
-            interaction.channel.send("Maafkan aku traveler, tapi kamu gagal check in hiks")
+        this.hoyoRepository.remindCheckIn({
+            onSuccess: result => this.showCheckInMessage(result, interaction),
+            onFailed: error => {
+                interaction.channel.send("Maafkan aku traveler, tapi kamu gagal check in hiks")
+            }
         })
-        .then(result => this.showCheckInMessage(result, interaction))
     }
 
     showCheckInMessage(result, interaction) {
