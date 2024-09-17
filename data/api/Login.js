@@ -43,8 +43,6 @@ async function login(requestBody) {
     redirect: "follow"
   };
   
-  fetch("https://sg-public-api.hoyolab.com/account/ma-passport/api/webLoginByPassword", requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.error(error));
+  return fetch("https://sg-public-api.hoyolab.com/account/ma-passport/api/webLoginByPassword", requestOptions)
+    .then((response) => response.json())
 }
