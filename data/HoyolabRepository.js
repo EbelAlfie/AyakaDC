@@ -11,14 +11,21 @@ class HoyolabRepository {
         let time = new Date.parse(checkInTime) 
     }
 
-    remindCheckIn() {
+    remindCheckIn(callback) {
+        this.time = new Date.parse("12:00 am")
+        console.log(this.time)
         setInterval(() => {
             let hourNow = new Date().getHours()
-            if (this.time == hourNow) this.checkIn()
+            console.log(this.time, hourNow)
+            console.log(this.time === hourNow)
+            if (this.time === hourNow) 
+                this._checkIn()
+                .catch(error => callback.onError(error))
+                .then(result => callback.onSuccess(result))
         }, 60000)
     }
 
-    checkIn() {
+    _checkIn() {
         return this.api.checkIn()
     }
 
