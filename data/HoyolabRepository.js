@@ -1,5 +1,5 @@
 class HoyolabRepository {
-    api = require("./api/CheckIn2.js")
+    api = require("./api/CheckIn.js")
 
     time = null
     timerId = "check_in"

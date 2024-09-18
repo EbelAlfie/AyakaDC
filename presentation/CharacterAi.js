@@ -15,7 +15,7 @@ class Brain {
     }
     
     async goTo() {  
-        if (this.#browser === null)  await this.#createBrowser() ;
+        if (this.#browser === null) await this.#createBrowser() ;
         
         if (this.#browser === null) return 
 
