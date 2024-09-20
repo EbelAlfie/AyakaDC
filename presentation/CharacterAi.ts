@@ -1,15 +1,16 @@
+import { Browser, launch } from "puppeteer";
+
 class Brain {
-    #puppeteer = require("puppeteer") ;
-    #browser = null ;
+    #browser: Browser | null = null ;
     constructor() {
         //token?
         this.#createBrowser() ;
     }
 
     async #createBrowser() {
-        await this.#puppeteer.launch({ headless: "false" }).then( browser =>
+        await launch({ headless: false }).then( browser =>
             this.#browser = browser 
-        ).catch(error => {
+        ).catch((error: Error) => {
             console.log(`Failed creating browser: ${error}`)
         }) ;
     }
@@ -32,7 +33,7 @@ class Brain {
     }
 
     closeBrowser() {
-        this.#browser.close().then( value =>{ 
+        this.#browser?.close().then( value =>{ 
             console.log("success closing browser") ;
         }).catch(error => {
             console.log(`Failed closing browser ${error}`) ;
@@ -44,7 +45,4 @@ class Brain {
     }
 }
 
-const brain = new Brain() ;
-brain.goTo() ;
-
-module.exports = Brain
+export default Brain

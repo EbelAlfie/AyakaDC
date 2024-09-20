@@ -1,18 +1,18 @@
 class HoyolabRepository {
     api = require("./api/CheckIn.js")
 
-    time = null
-    timerId = "check_in"
+    time: number | null = null
+    timerId: string = "check_in"
 
     constructor() {}
 
-    setCheckInHour(checkInTime) {
+    setCheckInHour(checkInTime: string) {
         clearInterval(this.timerId) 
-        let time = new Date.parse(checkInTime) 
+        let time = Date.parse(checkInTime) 
     }
 
-    remindCheckIn(callback) {
-        this.time = new Date.parse("12:00 am")
+    remindCheckIn(callback: BasicCallback<CheckInResponse>) {
+        this.time = Date.parse("12:00 am")
         console.log(this.time)
         setInterval(() => {
             let hourNow = new Date().getHours()
@@ -20,8 +20,8 @@ class HoyolabRepository {
             console.log(this.time === hourNow)
             if (this.time === hourNow) 
                 this._checkIn()
-                .catch(error => callback.onError(error))
-                .then(result => callback.onSuccess(result))
+                .catch((error : Error) => callback.onError(error))
+                .then((result: CheckInResponse) => callback.onSuccess(result))
         }, 60000)
     }
 

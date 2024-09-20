@@ -1,8 +1,8 @@
 import NodeRSA from "encrypt-rsa"
 
 export class Api {
-    _encryption = ""
-    key = null
+    _encryption: String| undefined = ""
+    key: NodeRSA | null = null
 
     constructor() {
         this._initApi()

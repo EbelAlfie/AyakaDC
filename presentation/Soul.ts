@@ -1,6 +1,9 @@
-const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+import { Client, Message, OmitPartialGroupDMChannel } from "discord.js";
+import { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js" ;
+import Brain from "./CharacterAi";
 
 class Soul {
+    brain: Brain
     hoyoRepository = require("../data/HoyolabRepository.js")
     isCheckIn = false
 
@@ -9,47 +12,46 @@ class Soul {
         this.brain = new Brain() ;
     }
 
-    onReady(client) {
-        console.log(`Logged in as ${client.user.tag}`) ;
+    onReady(client: Client) {
+        console.log(`Logged in as ${client.user?.tag}`) ;
         
         //log in to character ai
         this.brain.bringToLive() ;
     }
 
-    async reply(interaction) {
+    async reply(interaction: OmitPartialGroupDMChannel<Message<boolean>>) {
         if (interaction.author.bot) return 
 
         if (interaction.content === "checkin2") 
-            this.checkIn = true
+            this.isCheckIn = true
         
-        if (this.checkIn === true) {
-            
+        if (this.isCheckIn === true) {
             this.checkIn(interaction)
             return
         }
-        this.checkIn = false
+        this.isCheckIn = false
         
         let modal = this._inputModal()
 
-        await interaction.reply({
-            content: "Test",
-            components: [modal]
-        })
+        // await interaction.reply({
+        //     content: "Test",
+        //     components: [modal]
+        // })
 
         //await interaction.channel.send("Hello") ;
         //await this.brain.goTo() ;
     }
 
-    async checkIn(interaction) {
+    async checkIn(interaction: OmitPartialGroupDMChannel<Message<boolean>>) {
         this.hoyoRepository.remindCheckIn({
-            onSuccess: result => this.showCheckInMessage(result, interaction),
-            onFailed: error => {
+            onSuccess: (result: CheckInResponse) => this.showCheckInMessage(result, interaction),
+            onFailed: (error: Error) => {
                 interaction.channel.send("Maafkan aku traveler, tapi kamu gagal check in hiks")
             }
         })
     }
 
-    showCheckInMessage(result, interaction) {
+    showCheckInMessage(result: CheckInResponse, interaction: OmitPartialGroupDMChannel<Message<boolean>>) {
         let message = ""
         if (result.retcode < 0)
             message = result.message
@@ -59,17 +61,17 @@ class Soul {
         interaction.channel.send(message)
     }
 
-    _showSpinner(data) {
-        const row = new MessageActionRow()
-			.addComponents(
-				new MessageSelectMenu()
-					.setCustomId(id)
-					.setPlaceholder(defaultValue)
-					.addOptions(),
-			);
+    _showSpinner() {
+        // const row = new MessageActionRow()
+		// 	.addComponents(
+		// 		new MessageSelectMenu()
+		// 			.setCustomId(id)
+		// 			.setPlaceholder(defaultValue)
+		// 			.addOptions(),
+		// 	);
     }
 
-    _inputModal() {
+    _inputModal(): ModalBuilder {
         const userInput = new TextInputBuilder()
         .setCustomId("email")
         .setLabel("Email")
@@ -82,11 +84,10 @@ class Soul {
         .setStyle(TextInputStyle.Short)
         .setRequired(true)
 
-        const username = new ActionRowBuilder().addComponents(userInput)
-        const password = new ActionRowBuilder().addComponents(passInput)
-
-        const row = new ActionRowBuilder()
-            .addComponents(userInput, passInput)
+        const username = new ActionRowBuilder<TextInputBuilder>()
+            .addComponents(userInput)
+        const password = new ActionRowBuilder<TextInputBuilder>()
+            .addComponents(passInput)
 
         return new ModalBuilder()
             .addComponents(

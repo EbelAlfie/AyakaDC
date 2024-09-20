@@ -1,4 +1,6 @@
-const {Client, GatewayIntentBits, Events, TextInputBuilder, TextInputStyle, ModalBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle} = require("discord.js") ;
+import { Client, GatewayIntentBits, Events, Message, OmitPartialGroupDMChannel } from "discord.js";
+
+//const {Client, GatewayIntentBits, Events} = require("discord.js") ;
 const Ayaka = require("./presentation/Soul.js") ;
 const { ayakaDiscord } = 
     require("./config/config.json") ;
@@ -13,7 +15,7 @@ const client = new Client({ intents: [
 const ayaka = new Ayaka();
 
 client.once(Events.ClientReady, () => ayaka.onReady(client)) ;
-client.on(Events.MessageCreate, interaction => {
+client.on(Events.MessageCreate, (interaction: OmitPartialGroupDMChannel<Message<boolean>>) => {
     ayaka.reply(interaction)
 }) ;
 
