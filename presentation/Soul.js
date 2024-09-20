@@ -1,4 +1,4 @@
-const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } = require("discord.js");
+const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 
 class Soul {
     hoyoRepository = require("../data/HoyolabRepository.js")
@@ -31,7 +31,12 @@ class Soul {
         
         let modal = this._inputModal()
 
-        await interaction.channel.send("Hello") ;
+        await interaction.reply({
+            content: "Test",
+            components: [modal]
+        })
+
+        //await interaction.channel.send("Hello") ;
         //await this.brain.goTo() ;
     }
 
@@ -80,10 +85,23 @@ class Soul {
         const username = new ActionRowBuilder().addComponents(userInput)
         const password = new ActionRowBuilder().addComponents(passInput)
 
+        const row = new ActionRowBuilder()
+            .addComponents(userInput, passInput)
+
         return new ModalBuilder()
             .addComponents(
                 username, password
             )
+            .setTitle(
+                "Minta username"
+            )
+    }
+
+    buttonLogin() {
+        return new ButtonBuilder()
+            .setCustomId("btn-login")
+            .setLabel("Login")
+            .setStyle(ButtonStyle.Primary)    
     }
 }
 

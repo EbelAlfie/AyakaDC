@@ -1,4 +1,4 @@
-const {Client, GatewayIntentBits, Events} = require("discord.js") ;
+const {Client, GatewayIntentBits, Events, TextInputBuilder, TextInputStyle, ModalBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle} = require("discord.js") ;
 const Ayaka = require("./presentation/Soul.js") ;
 const { ayakaDiscord } = 
     require("./config/config.json") ;
