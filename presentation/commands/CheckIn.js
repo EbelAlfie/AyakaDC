@@ -12,7 +12,7 @@ module.exports = {
     async execute(interaction) { 
         if (interaction.author.bot) return
         //show date time modal 
-        
-        //hoyoRepository.remindCheckIn()
+        const date = Date.parse(interaction.content)
+        hoyoRepository.scheduleCheckIn(date)
     }
 }

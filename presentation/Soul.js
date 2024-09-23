@@ -20,7 +20,6 @@ class Soul {
     async reply(interaction) {
         if (interaction.author.bot) return
 
-
         //await interaction.channel.send("Hello") ;
         //await this.brain.goTo() ;
     }

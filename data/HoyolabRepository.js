@@ -6,12 +6,12 @@ class HoyolabRepository {
 
     constructor() {}
 
-    setCheckInHour(checkInTime) {
+    scheduleCheckIn(checkInTime) {
         clearInterval(this.timerId) 
         let time = new Date.parse(checkInTime) 
     }
 
-    remindCheckIn(callback) {
+    _startReminder(callback) {
         this.time = new Date.parse("12:00 am")
         console.log(this.time)
         setInterval(() => {
