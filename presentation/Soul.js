@@ -1,4 +1,5 @@
 const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { CheckInButton } = require("./components/buttons.js");
 
 class Soul {
     hoyoRepository = require("../data/HoyolabRepository.js")
@@ -17,24 +18,8 @@ class Soul {
     }
 
     async reply(interaction) {
-        if (interaction.author.bot) return 
+        if (interaction.author.bot) return
 
-        if (interaction.content === "checkin2") 
-            this.checkIn = true
-        
-        if (this.checkIn === true) {
-            
-            this.checkIn(interaction)
-            return
-        }
-        this.checkIn = false
-        
-        let modal = this._inputModal()
-
-        await interaction.reply({
-            content: "Test",
-            components: [modal]
-        })
 
         //await interaction.channel.send("Hello") ;
         //await this.brain.goTo() ;
@@ -59,50 +44,6 @@ class Soul {
         interaction.channel.send(message)
     }
 
-    _showSpinner(data) {
-        const row = new MessageActionRow()
-			.addComponents(
-				new MessageSelectMenu()
-					.setCustomId(id)
-					.setPlaceholder(defaultValue)
-					.addOptions(),
-			);
-    }
-
-    _inputModal() {
-        const userInput = new TextInputBuilder()
-        .setCustomId("email")
-        .setLabel("Email")
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true)
-
-        const passInput = new TextInputBuilder()
-        .setCustomId("password")
-        .setLabel('Password')
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true)
-
-        const username = new ActionRowBuilder().addComponents(userInput)
-        const password = new ActionRowBuilder().addComponents(passInput)
-
-        const row = new ActionRowBuilder()
-            .addComponents(userInput, passInput)
-
-        return new ModalBuilder()
-            .addComponents(
-                username, password
-            )
-            .setTitle(
-                "Minta username"
-            )
-    }
-
-    buttonLogin() {
-        return new ButtonBuilder()
-            .setCustomId("btn-login")
-            .setLabel("Login")
-            .setStyle(ButtonStyle.Primary)    
-    }
 }
 
 module.exports = Soul ;
