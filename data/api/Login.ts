@@ -33,7 +33,7 @@ async function login(requestBody) {
   const raw = JSON.stringify({
     "account": requestBody.account,
     "password": requestBody.password,
-    "token_type": 2
+    "token_type": requestBody.tokenType
   });
   
   const requestOptions = {
