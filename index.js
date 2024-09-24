@@ -13,6 +13,7 @@ const client = new Client({ intents: [
 const ayaka = new Ayaka();
 
 client.once(Events.ClientReady, () => ayaka.onReady(client)) ;
+
 client.on(Events.MessageCreate, interaction => {
     ayaka.reply(interaction)
 }) ;

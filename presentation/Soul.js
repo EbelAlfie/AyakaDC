@@ -1,7 +1,9 @@
-const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ButtonBuilder, ButtonStyle, REST, Routes } = require("discord.js");
 const { CheckInButton } = require("./components/buttons.js");
 
 class Soul {
+    fs = require('node:fs');
+    path = require('node:path');
     hoyoRepository = require("../data/HoyolabRepository.js")
     isCheckIn = false
 
@@ -12,7 +14,7 @@ class Soul {
 
     onReady(client) {
         console.log(`Logged in as ${client.user.tag}`) ;
-        
+        this._registerCommand(client)
         //log in to character ai
         this.brain.bringToLive() ;
     }
@@ -20,7 +22,7 @@ class Soul {
     async reply(interaction) {
         if (interaction.author.bot) return
 
-        //await interaction.channel.send("Hello") ;
+        await interaction.channel.send("Hello") ;
         //await this.brain.goTo() ;
     }
 
@@ -33,7 +35,33 @@ class Soul {
         })
     }
 
-    showCheckInMessage(result, interaction) {
+    async _registerCommand(client) {
+        const foldersPath = this.path.join(__dirname, 'commands');
+        const commandFolders = this.fs.readdirSync(foldersPath); 
+
+        let commands = []
+
+        for (const file of commandFolders) {
+            const filePath = this.path.join(foldersPath, file);
+            const command = require(filePath);
+            if ('data' in command && 'execute' in command) {
+                commands.push(command.data.toJSON());
+            } else {
+                const filePath = path.join(commandsPath, file);
+                console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+            }
+        }
+
+        let rest = new REST().setToken(client.token)
+
+        await rest.put(
+            Routes.applicationCommands(client.application.id),
+            { body: commands },
+        );
+
+    }
+
+    sendCheckInMessage(result, interaction) {
         let message = ""
         if (result.retcode < 0)
             message = result.message
