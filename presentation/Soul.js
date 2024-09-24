@@ -42,23 +42,25 @@ class Soul {
         let commands = []
 
         for (const file of commandFolders) {
-            const filePath = this.path.join(foldersPath, file);
-            const command = require(filePath);
+            const commandPath = this.path.join(foldersPath, file);
+            const command = require(filePath)
             if ('data' in command && 'execute' in command) {
-                commands.push(command.data.toJSON());
+                commands.push(command.data.toJSON())
             } else {
-                const filePath = path.join(commandsPath, file);
-                console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+                console.log(`[WARNING] The command at ${commandPath} is missing a required "data" or "execute" property.`)
             }
         }
 
         let rest = new REST().setToken(client.token)
 
-        await rest.put(
+        rest.put(
             Routes.applicationCommands(client.application.id),
             { body: commands },
-        );
-
+        ).then(result => {
+            console.log(result)
+        }).catch(error => {
+            console.log(error)
+        });
     }
 
     sendCheckInMessage(result, interaction) {

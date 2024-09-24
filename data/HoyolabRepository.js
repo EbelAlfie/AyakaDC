@@ -1,6 +1,6 @@
-class HoyolabRepository {
-    api = require("./api/CheckIn.js")
+import { onlineApi, localApi } from "./source/api"
 
+class HoyolabRepository {
     time = null
     timerId = "check_in"
 
@@ -26,7 +26,15 @@ class HoyolabRepository {
     }
 
     _checkIn() {
-        return this.api.checkIn()
+        onlineApi.checkIn()
+    }
+
+    _login() {
+        onlineApi.login()
+    }
+
+    _register() {
+
     }
 
 }
