@@ -1,4 +1,4 @@
-import { Message, OmitPartialGroupDMChannel, SlashCommandBuilder } from "discord.js"
+import { CommandInteraction, Message, OmitPartialGroupDMChannel, SlashCommandBuilder } from "discord.js"
 
 const RegisterCmd = () => {
     return new SlashCommandBuilder()
@@ -7,9 +7,8 @@ const RegisterCmd = () => {
 }
 
 const execute = async (
-    interaction: OmitPartialGroupDMChannel<Message<boolean>>
+    interaction: CommandInteraction
 ) => {
-    if (interaction.author.bot) return
     const hoyoRepository = require("../../data/HoyolabRepository")
 
     hoyoRepository.addUser(

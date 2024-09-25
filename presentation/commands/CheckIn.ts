@@ -1,4 +1,4 @@
-import { Message, OmitPartialGroupDMChannel, SlashCommandBuilder } from "discord.js"
+import { CommandInteraction, Message, OmitPartialGroupDMChannel, SlashCommandBuilder } from "discord.js"
 import { LoginModal } from "../components/modals"
 
 const CheckInCmd = () => {
@@ -8,9 +8,8 @@ const CheckInCmd = () => {
 }
 
 const execute = async (
-    interaction: OmitPartialGroupDMChannel<Message<boolean>>
+    interaction: CommandInteraction
 ) => {
-    if (interaction.author.bot) return
     const hoyoRepository = require("../../data/HoyolabRepository")
 
     hoyoRepository.scheduleCheckIn(
@@ -24,17 +23,21 @@ const execute = async (
 
 const handleError = (
     error: Error, 
-    interaction: OmitPartialGroupDMChannel<Message<boolean>>
+    interaction: CommandInteraction
 ) => {
 
     switch(error) {
         case NoUserError: {
             //Show modal
             const modal = LoginModal()
-            //interaction.showModal(modal)
+            interaction.showModal(modal)
+            interaction.awaitModalSubmit({time: 5000})
+            .then(result => {
+                console.log(result)
+            })
         }
         default: 
-            interaction.channel.send('Maaf yaa lagi error')
+            interaction.reply('Maaf yaa lagi error')
     }
 
 }
@@ -52,12 +55,12 @@ module.exports = {
 
 //Niche Functions
 
-function showCheckInMessage(result: CheckInResponse, interaction: OmitPartialGroupDMChannel<Message<boolean>>) {
+function showCheckInMessage(result: CheckInResponse, interaction: CommandInteraction) {
     let message = ""
     if (result.retcode < 0)
         message = result.message
     else 
         message = "Sukses check in ya, traveler sayang"
 
-    interaction.channel.send(message)
+    interaction.reply(message)
 }
