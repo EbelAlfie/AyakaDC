@@ -7,9 +7,20 @@ const RegisterCmd = () => {
         .setDescription("Command to register new user to hoyolab")
 }
 
+const execute = async (interaction) => {
+    const hoyoRepository = require("../../data/HoyolabRepository")
+
+    hoyoRepository.addUser(
+
+    )
+
+}
+
+const handleError = (error, interaction) => {
+
+}
+
 module.exports = {
     data: RegisterCmd(),
-    async execute(interaction) {
-        
-    }
+    execute: execute
 }

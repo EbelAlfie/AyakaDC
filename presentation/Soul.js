@@ -14,7 +14,7 @@ class Soul {
 
     onReady(client) {
         console.log(`Logged in as ${client.user.tag}`) ;
-        this._registerCommand(client)
+        this.#registerCommand(client)
         //log in to character ai
         this.brain.bringToLive() ;
     }
@@ -26,16 +26,7 @@ class Soul {
         //await this.brain.goTo() ;
     }
 
-    async checkIn(interaction) {
-        this.hoyoRepository.remindCheckIn({
-            onSuccess: result => this.showCheckInMessage(result, interaction),
-            onFailed: error => {
-                interaction.channel.send("Maafkan aku traveler, tapi kamu gagal check in hiks")
-            }
-        })
-    }
-
-    async _registerCommand(client) {
+    async #registerCommand(client) {
         const foldersPath = this.path.join(__dirname, 'commands');
         const commandFolders = this.fs.readdirSync(foldersPath); 
 
@@ -43,7 +34,7 @@ class Soul {
 
         for (const file of commandFolders) {
             const commandPath = this.path.join(foldersPath, file);
-            const command = require(filePath)
+            const command = require(commandPath)
             if ('data' in command && 'execute' in command) {
                 commands.push(command.data.toJSON())
             } else {
@@ -61,16 +52,6 @@ class Soul {
         }).catch(error => {
             console.log(error)
         });
-    }
-
-    sendCheckInMessage(result, interaction) {
-        let message = ""
-        if (result.retcode < 0)
-            message = result.message
-        else 
-            message = "Sukses check in ya, traveler sayang"
-
-        interaction.channel.send(message)
     }
 
 }

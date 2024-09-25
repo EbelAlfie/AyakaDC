@@ -6,35 +6,43 @@ class HoyolabRepository {
 
     constructor() {}
 
-    scheduleCheckIn(checkInTime) {
-        clearInterval(this.timerId) 
-        let time = new Date.parse(checkInTime) 
+    /** Public */
+    scheduleCheckIn(time, callback) {
+        if (this.isUserLoggedIn()) 
+            callback.onError(NoUserError) 
+        else 
+            this.#startReminder(time, callback)
     }
 
-    _startReminder(callback) {
-        this.time = new Date.parse("12:00 am")
+    isUserLoggedIn() {
+        return localApi.isUserListEmpty()
+    }
+
+    registerUser() {
+        //onlineApi.login()
+    }
+
+    #startReminder(checkInTime, callback) {
+        this.time = Date.parse(checkInTime)
         console.log(this.time)
         setInterval(() => {
             let hourNow = new Date().getHours()
             console.log(this.time, hourNow)
             console.log(this.time === hourNow)
-            if (this.time === hourNow) 
-                this._checkIn()
-                .catch(error => callback.onError(error))
-                .then(result => callback.onSuccess(result))
+            if (this.time !== hourNow) return
+            
+            this.#checkInAllUser(callback)
         }, 60000)
     }
 
-    _checkIn() {
-        onlineApi.checkIn()
-    }
-
-    _login() {
-        onlineApi.login()
-    }
-
-    _register() {
-
+    #checkInAllUser(callback) {
+        let userData = localApi.getAllUsers()
+        userData.forEach(item => {
+            onlineApi.checkIn(item.join("; "))
+            .catch(error => callback.onError(error))
+            .then(result => callback.onSuccess(result))
+        })
+        
     }
 
 }

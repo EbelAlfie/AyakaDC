@@ -1,3 +1,5 @@
+const { default: axios } = require("axios");
+
 async function login(requestBody) {
 
   const myHeaders = new Headers();
@@ -15,17 +17,13 @@ async function login(requestBody) {
   myHeaders.append("sec-ch-ua-mobile", "?1");
   myHeaders.append("sec-ch-ua-platform", "\"Android\"");
   myHeaders.append("x-rpc-aigis_v4", "true");
-  myHeaders.append("x-rpc-app_id", "ce1tbuwb00zk");
   myHeaders.append("x-rpc-app_version", "");
   myHeaders.append("x-rpc-client_type", "4");
-  myHeaders.append("x-rpc-device_fp", "38d7f36cb2af2");
-  myHeaders.append("x-rpc-device_id", "bf4eedda-974a-47f3-9e58-b7594fb4226c");
   myHeaders.append("x-rpc-device_model", "Chrome Mobile 128.0.0.0");
   myHeaders.append("x-rpc-device_name", "Chrome Mobile");
   myHeaders.append("x-rpc-device_os", "Android 6.0");
   myHeaders.append("x-rpc-game_biz", "hk4e_global");
   myHeaders.append("x-rpc-language", "en-us");
-  myHeaders.append("x-rpc-lifecycle_id", "f433abe7-4156-48cf-b4fe-c40095f2b7da");
   myHeaders.append("x-rpc-referrer", "https://act.hoyolab.com/ys/event/signin-sea-v3/index.html?act_id=e202102251931481&hyl_auth_required=true&hyl_presentation_style=fullscreen&utm_source=hoyolab&utm_medium=tools&lang=en-us&bbs_theme=dark&bbs_theme_device=1");
   myHeaders.append("x-rpc-sdk_version", "2.31.0");
   
@@ -42,6 +40,5 @@ async function login(requestBody) {
     redirect: "follow"
   };
   
-  return fetch("https://sg-public-api.hoyolab.com/account/ma-passport/api/webLoginByPassword", requestOptions)
-    .then((response) => response.json())
+  return axios.post("https://sg-public-api.hoyolab.com/account/ma-passport/api/webLoginByPassword", requestOptions)
 }

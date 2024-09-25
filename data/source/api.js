@@ -2,32 +2,48 @@ import NodeRSA from "encrypt-rsa"
 import { checkIn } from "./CheckIn"
 
 class Api {
-    _encryption = ""
     key = null
 
     constructor() {
-        this._initApi()
+        this.#initApi()
     }
 
-    _initApi() {
-        this._encryption = process.env.MIHOYO_ENCRYPTION_KEY
-        this.key = new NodeRSA()
+    #initApi() {
+        this.key = new NodeRSA(process.env.MIHOYO_ENCRYPTION_KEY)
     }
 
     checkIn() {
         return checkIn()
     }
 
-    login(request) {
-        //const email = encrypt()
+    login(user) {
+        const encryptedEmail = this.key?.encrypt({
+            text: request.email
+        })
+
+        const encryptedPass = this.key?.encryptStringWithRsaPublicKey({
+            text: request.password
+        })
+
+        let newRequest = {
+            email: encryptedEmail||"",
+            password: encryptedPass||"",
+            tokenType: 2
+        }
         
-        return login(requestBody)
+        return login(newRequest)
+            .then(result => {
+                let cookies = result.headers["set-cookie"]
+                if (cookies !== undefined)
+                    localApi.login(request, cookies)
+                return result
+            })
     }
 
 }
 
 class Local {
-    userData = null //Pair of userdata and cookies
+    userData = new Map() //Pair of userdata and cookies
 
     constructor() {}
 

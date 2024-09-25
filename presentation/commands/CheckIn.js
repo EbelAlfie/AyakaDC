@@ -7,12 +7,47 @@ const CheckInCmd = () => {
         .setDescription("Schedule a checkin to hoyolab")
 }
 
+const execute = async (interaction) => {
+    const hoyoRepository = require("../../data/HoyolabRepository")
+
+    hoyoRepository.scheduleCheckIn(
+        {
+            onSuccess: result => showCheckInMessage(result, interaction),
+            onFailed: error => handleError(error, interaction)
+        }
+    )
+
+}
+
+const handleError = (error, interaction) => {
+
+    switch(error) {
+        case NoUserError: {
+            //Show modal
+            const modal = LoginModal()
+            interaction.showModal(modal)
+            interaction.awaitModalSubmit({time: 5000})
+            .then(result => {
+                console.log(result)
+            })
+        }
+        default: 
+            interaction.reply('Maaf yaa lagi error')
+    }
+
+}
+
 module.exports = {
     data: CheckInCmd(),
-    async execute(interaction) { 
-        if (interaction.author.bot) return
-        //show date time modal 
-        const date = Date.parse(interaction.content)
-        hoyoRepository.scheduleCheckIn(date)
-    }
+    execute: execute
+}
+
+function sendCheckInMessage(result, interaction) {
+    let message = ""
+    if (result.retcode < 0)
+        message = result.message
+    else 
+        message = "Sukses check in ya, traveler sayang"
+
+    interaction.channel.send(message)
 }
