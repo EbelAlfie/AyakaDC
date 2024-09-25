@@ -24,9 +24,8 @@ const handleError = (error, interaction) => {
     switch(error) {
         case NoUserError: {
             //Show modal
-            const modal = LoginModal()
-            interaction.showModal(modal)
-            interaction.awaitModalSubmit({time: 5000})
+            const registerModule = require("./Register.js")
+            registerModule.execute(interaction)
             .then(result => {
                 console.log(result)
             })

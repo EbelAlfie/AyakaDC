@@ -7,7 +7,7 @@ class Api {
     }
 
     #initApi() {
-        const { NodeRSA } = require("encrypt-rsa").default
+        const NodeRSA = require("encrypt-rsa").default
         this.key = new NodeRSA(process.env.MIHOYO_ENCRYPTION_KEY)
     }
 
