@@ -26,7 +26,7 @@ class Api {
 }
 
 class Local {
-    userData: Map<UserData, string>|undefined = undefined //Pair of userdata and cookies
+    userData: Map<UserData, string> = new Map() //Pair of userdata and cookies
 
     constructor() {}
 
@@ -37,6 +37,10 @@ class Local {
     login(newUserData: UserData) {
 
         
+    }
+
+    isUserListEmpty(): boolean {
+        return this.userData.size <= 0
     }
 }
 

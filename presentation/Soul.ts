@@ -6,8 +6,6 @@ class Soul {
     fs = require('node:fs');
     path = require('node:path');
     brain: Brain
-    hoyoRepository = require("../data/HoyolabRepository.js")
-    isCheckIn = false
 
     constructor() {
         const Brain = require("./CharacterAi.js")  ;
@@ -23,15 +21,6 @@ class Soul {
 
     async reply(interaction: OmitPartialGroupDMChannel<Message<boolean>>) {
         if (interaction.author.bot) return 
-
-        if (interaction.content === "checkin2") 
-            this.isCheckIn = true
-        
-        if (this.isCheckIn === true) {
-            this.checkIn(interaction)
-            return
-        }
-        this.isCheckIn = false
         
         // await interaction.reply({
         //     content: "Test",
@@ -40,15 +29,6 @@ class Soul {
 
         //await interaction.channel.send("Hello") ;
         //await this.brain.goTo() ;
-    }
-
-    async checkIn(interaction: OmitPartialGroupDMChannel<Message<boolean>>) {
-        this.hoyoRepository.remindCheckIn({
-            onSuccess: (result: CheckInResponse) => this.showCheckInMessage(result, interaction),
-            onFailed: (error: Error) => {
-                interaction.channel.send("Maafkan aku traveler, tapi kamu gagal check in hiks")
-            }
-        })
     }
 
     async _registerCommand(client : Client) {

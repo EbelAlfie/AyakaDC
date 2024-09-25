@@ -1,15 +1,35 @@
-class HoyolabRepository {
+import { onlineApi, localApi } from "./source/api"
+
+class HoyolabRepositoryImpl implements HoyolabRepository {
     time: number | null = null
     timerId: string = "check_in"
 
     constructor() {}
 
-    setCheckInHour(checkInTime: string) {
+    /** Public */
+    scheduleCheckIn(time: string) {
+        if (this.isUserLoggedIn()) return 
+        this._setCheckInHour(time)
+    }
+
+    isUserLoggedIn(): boolean {
+        return this._userExist()
+    }
+
+    addUser() {
+
+    }
+
+    registerUser() {
+        
+    }
+    
+    _setCheckInHour(checkInTime: string) {
         clearInterval(this.timerId) 
         let time = Date.parse(checkInTime) 
     }
 
-    remindCheckIn(callback: BasicCallback<CheckInResponse>) {
+    _remindCheckIn(callback: BasicCallback<CheckInResponse>) {
         this.time = Date.parse("12:00 am")
         console.log(this.time)
         setInterval(() => {
@@ -23,12 +43,16 @@ class HoyolabRepository {
         }, 60000)
     }
 
+    _userExist() : boolean{
+        return localApi.isUserListEmpty()
+    }
+
     _checkIn() {
-        onlineApi.checkIn()
+        return onlineApi.checkIn()
     }
 
     _login() {
-        onlineApi.login()
+        return onlineApi.login()
     }
 
     _register() {
@@ -37,6 +61,6 @@ class HoyolabRepository {
 
 }
 
-const hoyoRepository = new HoyolabRepository()
+const hoyoRepository = new HoyolabRepositoryImpl()
 
 module.exports = hoyoRepository
