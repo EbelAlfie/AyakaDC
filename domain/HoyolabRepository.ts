@@ -1,5 +1,8 @@
 interface HoyolabRepository {
-    scheduleCheckIn: (time: string) => void
+    scheduleCheckIn: (
+        time: string,
+        callback: BasicCallback<CheckInResponse>
+    ) => void
 
     isUserLoggedIn: () => boolean
     

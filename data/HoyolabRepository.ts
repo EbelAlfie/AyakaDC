@@ -7,9 +7,14 @@ class HoyolabRepositoryImpl implements HoyolabRepository {
     constructor() {}
 
     /** Public */
-    scheduleCheckIn(time: string) {
-        if (this.isUserLoggedIn()) return 
-        this._setCheckInHour(time)
+    scheduleCheckIn(
+        time: string,
+        callback: BasicCallback<CheckInResponse>
+    ) {
+        if (this.isUserLoggedIn()) 
+            callback.onError(NoUserError) 
+        else 
+            this._setCheckInHour(time)
     }
 
     isUserLoggedIn(): boolean {
@@ -21,7 +26,7 @@ class HoyolabRepositoryImpl implements HoyolabRepository {
     }
 
     registerUser() {
-        
+        //onlineApi.login()
     }
     
     _setCheckInHour(checkInTime: string) {
@@ -37,26 +42,14 @@ class HoyolabRepositoryImpl implements HoyolabRepository {
             console.log(this.time, hourNow)
             console.log(this.time === hourNow)
             if (this.time === hourNow) 
-                this._checkIn()
-                .catch((error : Error) => callback.onError(error))
-                .then((result: CheckInResponse) => callback.onSuccess(result))
+                onlineApi.checkIn()
+                    .catch((error : Error) => callback.onError(error))
+                    .then((result: CheckInResponse) => callback.onSuccess(result))
         }, 60000)
     }
 
     _userExist() : boolean{
         return localApi.isUserListEmpty()
-    }
-
-    _checkIn() {
-        return onlineApi.checkIn()
-    }
-
-    _login() {
-        return onlineApi.login()
-    }
-
-    _register() {
-
     }
 
 }

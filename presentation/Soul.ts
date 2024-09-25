@@ -60,15 +60,6 @@ class Soul {
         });
     }
 
-    showCheckInMessage(result: CheckInResponse, interaction: OmitPartialGroupDMChannel<Message<boolean>>) {
-        let message = ""
-        if (result.retcode < 0)
-            message = result.message
-        else 
-            message = "Sukses check in ya, traveler sayang"
-
-        interaction.channel.send(message)
-    }
 }
 
 module.exports = Soul ;

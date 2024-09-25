@@ -29,6 +29,4 @@ const LoginModal = () => {
             )
 }
 
-module.exports = {
-    LoginModal
-}
+export { LoginModal }

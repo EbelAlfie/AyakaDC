@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "discord.js"
+import { Message, OmitPartialGroupDMChannel, SlashCommandBuilder } from "discord.js"
 
 const RegisterCmd = () => {
     return new SlashCommandBuilder()

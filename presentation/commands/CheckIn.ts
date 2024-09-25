@@ -1,4 +1,5 @@
 import { Message, OmitPartialGroupDMChannel, SlashCommandBuilder } from "discord.js"
+import { LoginModal } from "../components/modals"
 
 const CheckInCmd = () => {
     return new SlashCommandBuilder()
@@ -6,13 +7,57 @@ const CheckInCmd = () => {
         .setDescription("Schedule a checkin to hoyolab")
 }
 
+const execute = async (
+    interaction: OmitPartialGroupDMChannel<Message<boolean>>
+) => {
+    if (interaction.author.bot) return
+    const hoyoRepository = require("../../data/HoyolabRepository")
+
+    hoyoRepository.scheduleCheckIn(
+        {
+            onSuccess: (result: CheckInResponse) => showCheckInMessage(result, interaction),
+            onFailed: (error: Error) => handleError(error, interaction)
+        }
+    )
+
+}
+
+const handleError = (
+    error: Error, 
+    interaction: OmitPartialGroupDMChannel<Message<boolean>>
+) => {
+
+    switch(error) {
+        case NoUserError: {
+            //Show modal
+            const modal = LoginModal()
+            //interaction.showModal(modal)
+        }
+        default: 
+            interaction.channel.send('Maaf yaa lagi error')
+    }
+
+}
+
+/**
+ * 1. Check if user/s exist or not
+ * 2. prompt initial registration of first user
+ * 3. schedule a checkin 
+ */
 module.exports = {
     data: CheckInCmd(),
-    async execute(interaction: OmitPartialGroupDMChannel<Message<boolean>>) { 
-        if (interaction.author.bot) return
-        const hoyoRepository = require("../../data/HoyolabRepository")
-        //show date time modal 
-        const date = Date.parse(interaction.content)
-        hoyoRepository.scheduleCheckIn(date)
-    }
+    execute: execute
+}
+
+
+//Niche Functions
+
+function showCheckInMessage(result: CheckInResponse, interaction: OmitPartialGroupDMChannel<Message<boolean>>) {
+    let message = ""
+    if (result.retcode < 0)
+        message = result.message
+    else 
+        message = "Sukses check in ya, traveler sayang"
+
+    interaction.channel.send(message)
 }

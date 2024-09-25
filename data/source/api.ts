@@ -1,7 +1,6 @@
 import NodeRSA from "encrypt-rsa"
 
 class Api {
-    _encryption = ""
     key: NodeRSA|null = null
 
     constructor() {
@@ -9,8 +8,7 @@ class Api {
     }
 
     _initApi() {
-        this._encryption = process.env.MIHOYO_ENCRYPTION_KEY || ""
-        this.key = new NodeRSA()
+        this.key = new NodeRSA(process.env.MIHOYO_ENCRYPTION_KEY)
     }
 
     checkIn(header: CheckInHeader) {
@@ -18,9 +16,21 @@ class Api {
     }
 
     login(request: LoginRequestBody) {
-        //const email = encrypt()
+        const encryptedEmail = this.key?.encrypt({
+            text: request.email
+        })
+
+        const encryptedPass = this.key?.encryptStringWithRsaPublicKey({
+            text: request.password
+        })
+
+        let newRequest: LoginRequestBody = {
+            email: encryptedEmail||"",
+            password: encryptedPass||"",
+            tokenType: request.tokenType
+        }
         
-        return login(request)
+        return login(newRequest)
     }
 
 }
@@ -36,7 +46,6 @@ class Local {
 
     login(newUserData: UserData) {
 
-        
     }
 
     isUserListEmpty(): boolean {
