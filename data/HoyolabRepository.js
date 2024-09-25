@@ -1,4 +1,4 @@
-import { onlineApi, localApi } from "./source/api"
+const { onlineApi, localApi } = require("./source/api")
 
 class HoyolabRepository {
     time = null

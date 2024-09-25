@@ -1,7 +1,5 @@
-import NodeRSA from "encrypt-rsa"
-import { checkIn } from "./CheckIn"
-
 class Api {
+    checkIn = require("./CheckIn")
     key = null
 
     constructor() {
@@ -9,6 +7,7 @@ class Api {
     }
 
     #initApi() {
+        const { NodeRSA } = require("encrypt-rsa").default
         this.key = new NodeRSA(process.env.MIHOYO_ENCRYPTION_KEY)
     }
 
@@ -56,8 +55,8 @@ class Local {
     }
 }
 
-const onlineApi = Api()
+const onlineApi = new Api()
 
-const localApi = Local()
+const localApi = new Local()
 
-export { onlineApi, localApi }
+module.exports = { onlineApi, localApi }
