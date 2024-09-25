@@ -10,10 +10,17 @@ const RegisterCmd = () => {
 const execute = async (interaction) => {
     const hoyoRepository = require("../../data/HoyolabRepository")
 
-    hoyoRepository.addUser(
+    const modal = LoginModal()
+    interaction.showModal(modal)
+    
+    await interaction.awaitModalSubmit({time: 5000})
+        .then(result => {
+            console.log(result)
+            hoyoRepository.addUser(
 
-    )
-
+            )
+        })
+    
 }
 
 const handleError = (error, interaction) => {
