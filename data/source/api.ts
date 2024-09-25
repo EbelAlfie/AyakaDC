@@ -1,21 +1,23 @@
 import NodeRSA from "encrypt-rsa"
+import { login } from "../api/Login"
+import { checkIn } from "../api/CheckIn"
 
 class Api {
-    key: NodeRSA|null = null
+    private key: NodeRSA|null = null
 
     constructor() {
-        this._initApi()
+        this.initApi()
     }
 
-    _initApi() {
+    private initApi() {
         this.key = new NodeRSA(process.env.MIHOYO_ENCRYPTION_KEY)
     }
 
-    checkIn(header: CheckInHeader) {
-        return checkIn(header)
+    checkIn(cookie: string) {
+        return checkIn(cookie)
     }
 
-    login(request: LoginRequestBody) {
+    async login(request: UserData) {
         const encryptedEmail = this.key?.encrypt({
             text: request.email
         })
@@ -27,25 +29,31 @@ class Api {
         let newRequest: LoginRequestBody = {
             email: encryptedEmail||"",
             password: encryptedPass||"",
-            tokenType: request.tokenType
+            tokenType: 2
         }
         
         return login(newRequest)
+            .then(result => {
+                let cookies = result.headers["set-cookie"]
+                if (cookies !== undefined)
+                    localApi.login(request, cookies)
+                return result
+            })
     }
 
 }
 
 class Local {
-    userData: Map<UserData, string> = new Map() //Pair of userdata and cookies
+    private userData: Map<UserData, string[]> = new Map() //Pair of userdata and cookies
 
     constructor() {}
 
-    allUsers() {
+    getAllUsers(): Map<UserData, string[]> {
         return this.userData
     }
 
-    login(newUserData: UserData) {
-
+    login(newUserData: UserData, cookies: string[]) {
+        this.userData.set(newUserData, cookies)
     }
 
     isUserListEmpty(): boolean {

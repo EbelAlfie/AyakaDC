@@ -2,14 +2,14 @@ class CharacterAiRepository {
     socket = null 
     
     constructor() {
+        this.setupWebSocket()
+    }
+
+    private setupWebSocket() {
 
     }
 
-    setupWebSocket() {
-
-    }
-
-    _createWebSocket() {
+    private createWebSocket() {
         //this.socket = new WebSocket("wss://neo.character.ai/ws")
     }
 }

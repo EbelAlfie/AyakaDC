@@ -14,24 +14,19 @@ class Soul {
 
     onReady(client: Client) {
         console.log(`Logged in as ${client.user?.tag}`) ;
-        this._registerCommand(client) 
+        this.registerCommand(client) 
         //log in to character ai
         this.brain.bringToLive() ;
     }
 
     async reply(interaction: OmitPartialGroupDMChannel<Message<boolean>>) {
         if (interaction.author.bot) return 
-        
-        // await interaction.reply({
-        //     content: "Test",
-        //     components: [modal]
-        // })
 
         //await interaction.channel.send("Hello") ;
         //await this.brain.goTo() ;
     }
 
-    async _registerCommand(client : Client) {
+    private async registerCommand(client : Client) {
         const foldersPath = this.path.join(__dirname, 'commands');
         const commandFolders = this.fs.readdirSync(foldersPath); 
 
