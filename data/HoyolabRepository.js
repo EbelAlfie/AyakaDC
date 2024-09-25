@@ -1,16 +1,18 @@
+import { onlineApi, localApi } from "./source/api"
+
 class HoyolabRepository {
-    time: number | null = null
-    timerId: string = "check_in"
+    time = null
+    timerId = "check_in"
 
     constructor() {}
 
-    setCheckInHour(checkInTime: string) {
+    scheduleCheckIn(checkInTime) {
         clearInterval(this.timerId) 
-        let time = Date.parse(checkInTime) 
+        let time = new Date.parse(checkInTime) 
     }
 
-    remindCheckIn(callback: BasicCallback<CheckInResponse>) {
-        this.time = Date.parse("12:00 am")
+    _startReminder(callback) {
+        this.time = new Date.parse("12:00 am")
         console.log(this.time)
         setInterval(() => {
             let hourNow = new Date().getHours()
@@ -18,8 +20,8 @@ class HoyolabRepository {
             console.log(this.time === hourNow)
             if (this.time === hourNow) 
                 this._checkIn()
-                .catch((error : Error) => callback.onError(error))
-                .then((result: CheckInResponse) => callback.onSuccess(result))
+                .catch(error => callback.onError(error))
+                .then(result => callback.onSuccess(result))
         }, 60000)
     }
 

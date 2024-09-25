@@ -1,8 +1,10 @@
-import { Client, Message, OmitPartialGroupDMChannel } from "discord.js";
+import { Client, Message, OmitPartialGroupDMChannel, REST, Routes } from "discord.js";
 import { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js" ;
 import Brain from "./CharacterAi";
 
 class Soul {
+    fs = require('node:fs');
+    path = require('node:path');
     brain: Brain
     hoyoRepository = require("../data/HoyolabRepository.js")
     isCheckIn = false
@@ -14,7 +16,7 @@ class Soul {
 
     onReady(client: Client) {
         console.log(`Logged in as ${client.user?.tag}`) ;
-        
+        this._registerCommand(client) 
         //log in to character ai
         this.brain.bringToLive() ;
     }
@@ -31,8 +33,6 @@ class Soul {
         }
         this.isCheckIn = false
         
-        let modal = this._inputModal()
-
         // await interaction.reply({
         //     content: "Test",
         //     components: [modal]
@@ -51,6 +51,35 @@ class Soul {
         })
     }
 
+    async _registerCommand(client : Client) {
+        const foldersPath = this.path.join(__dirname, 'commands');
+        const commandFolders = this.fs.readdirSync(foldersPath); 
+
+        let commands = []
+
+        for (const file of commandFolders) {
+            const commandPath = this.path.join(foldersPath, file);
+            const command = require(commandPath)
+            if ('data' in command && 'execute' in command) {
+                commands.push(command.data.toJSON())
+            } else {
+                console.log(`[WARNING] The command at ${commandPath} is missing a required "data" or "execute" property.`)
+            }
+        }
+
+        let rest = new REST().setToken(client.token || "")
+
+        if (client.application === null) return 
+        rest.put(
+            Routes.applicationCommands(client.application.id),
+            { body: commands },
+        ).then(result => {
+            console.log(result)
+        }).catch(error => {
+            console.log(error)
+        });
+    }
+
     showCheckInMessage(result: CheckInResponse, interaction: OmitPartialGroupDMChannel<Message<boolean>>) {
         let message = ""
         if (result.retcode < 0)
@@ -59,50 +88,6 @@ class Soul {
             message = "Sukses check in ya, traveler sayang"
 
         interaction.channel.send(message)
-    }
-
-    _showSpinner() {
-        // const row = new MessageActionRow()
-		// 	.addComponents(
-		// 		new MessageSelectMenu()
-		// 			.setCustomId(id)
-		// 			.setPlaceholder(defaultValue)
-		// 			.addOptions(),
-		// 	);
-    }
-
-    _inputModal(): ModalBuilder {
-        const userInput = new TextInputBuilder()
-        .setCustomId("email")
-        .setLabel("Email")
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true)
-
-        const passInput = new TextInputBuilder()
-        .setCustomId("password")
-        .setLabel('Password')
-        .setStyle(TextInputStyle.Short)
-        .setRequired(true)
-
-        const username = new ActionRowBuilder<TextInputBuilder>()
-            .addComponents(userInput)
-        const password = new ActionRowBuilder<TextInputBuilder>()
-            .addComponents(passInput)
-
-        return new ModalBuilder()
-            .addComponents(
-                username, password
-            )
-            .setTitle(
-                "Minta username"
-            )
-    }
-
-    buttonLogin() {
-        return new ButtonBuilder()
-            .setCustomId("btn-login")
-            .setLabel("Login")
-            .setStyle(ButtonStyle.Primary)    
     }
 }
 
