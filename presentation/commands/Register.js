@@ -10,8 +10,9 @@ const RegisterCmd = () => {
 const execute = async (interaction) => {
     const hoyoRepository = require("../../data/HoyolabRepository")
 
+    const { LoginModal } = require("../components/modals.js")
     const modal = LoginModal()
-    interaction.showModal(modal)
+    interaction.showModal(modal.toJSON)
     
     await interaction.awaitModalSubmit({time: 5000})
         .then(result => {

@@ -1,3 +1,4 @@
+const { NoUserError } = require("../domain/CheckInResCode.js")
 const { onlineApi, localApi } = require("./source/api")
 
 class HoyolabRepository {
@@ -9,7 +10,7 @@ class HoyolabRepository {
     /** Public */
     scheduleCheckIn(time, callback) {
         if (this.isUserLoggedIn()) 
-            callback.onError(NoUserError) 
+            callback.onFailed(NoUserError) 
         else 
             this.#startReminder(time, callback)
     }

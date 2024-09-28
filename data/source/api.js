@@ -17,11 +17,11 @@ class Api {
 
     login(user) {
         const encryptedEmail = this.key?.encrypt({
-            text: request.email
+            text: user.email
         })
 
         const encryptedPass = this.key?.encryptStringWithRsaPublicKey({
-            text: request.password
+            text: user.password
         })
 
         let newRequest = {
@@ -48,6 +48,10 @@ class Local {
 
     allUsers() {
         return this.userData
+    }
+
+    isUserListEmpty() {
+        return this.userData.size >= 0
     }
 
     login(newUserData) {

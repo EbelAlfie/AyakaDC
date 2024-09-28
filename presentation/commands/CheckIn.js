@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js")
-const hoyoRepository = require("../../data/HoyolabRepository")
+const { NoUserError } = require("../../domain/CheckInResCode.js")
 
 const CheckInCmd = () => {
     return new SlashCommandBuilder()
@@ -10,8 +10,8 @@ const CheckInCmd = () => {
 const execute = async (interaction) => {
     const hoyoRepository = require("../../data/HoyolabRepository")
 
-    console.log("test")
     hoyoRepository.scheduleCheckIn(
+        "",
         {
             onSuccess: result => sendCheckInMessage(result, interaction),
             onFailed: error => handleError(error, interaction)
