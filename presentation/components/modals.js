@@ -16,15 +16,11 @@ const LoginModal = () => {
     const username = new ActionRowBuilder().addComponents(userInput)
     const password = new ActionRowBuilder().addComponents(passInput)
 
-    const row = new ActionRowBuilder()
-        .addComponents(userInput, passInput)
-
     return new ModalBuilder()
-        .addComponents(
+        .setCustomId("Register modal")
+        .setTitle("Minta username")
+        .setComponents(
             username, password
-        )
-        .setTitle(
-            "Minta username"
         )
 }
 

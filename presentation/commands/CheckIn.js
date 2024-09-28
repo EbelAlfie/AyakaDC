@@ -8,7 +8,7 @@ const CheckInCmd = () => {
 }
 
 const execute = async (interaction) => {
-    const hoyoRepository = require("../../data/HoyolabRepository")
+    const hoyoRepository = require("../../data/HoyolabRepository.js")
 
     hoyoRepository.scheduleCheckIn(
         "",
