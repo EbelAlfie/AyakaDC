@@ -1,5 +1,3 @@
-const { default: axios } = require("axios");
-
 async function login(requestBody) {
 
   const myHeaders = new Headers();
@@ -40,5 +38,5 @@ async function login(requestBody) {
     redirect: "follow"
   };
   
-  return axios.post("https://sg-public-api.hoyolab.com/account/ma-passport/api/webLoginByPassword", requestOptions)
+  return fetch("https://sg-public-api.hoyolab.com/account/ma-passport/api/webLoginByPassword", requestOptions)
 }

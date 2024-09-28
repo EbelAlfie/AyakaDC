@@ -1,5 +1,3 @@
-const { default: axios } = require("axios");
-
 async function checkIn(cookies) {
   const headers = new Headers();
   headers.append("accept", "application/json, text/plain, */*");
@@ -23,7 +21,8 @@ async function checkIn(cookies) {
     redirect: "follow"
   };
   
-  return axios.post("https://sg-hk4e-api.hoyolab.com/event/sol/sign?lang=en-us", requestOptions)
+  return fetch("https://sg-hk4e-api.hoyolab.com/event/sol/sign?lang=en-us", requestOptions)
+  .then(result => result.json)
   .then(result => {
     console.log(result)
     return result

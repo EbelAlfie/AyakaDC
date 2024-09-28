@@ -10,9 +10,10 @@ const CheckInCmd = () => {
 const execute = async (interaction) => {
     const hoyoRepository = require("../../data/HoyolabRepository")
 
+    console.log("test")
     hoyoRepository.scheduleCheckIn(
         {
-            onSuccess: result => showCheckInMessage(result, interaction),
+            onSuccess: result => sendCheckInMessage(result, interaction),
             onFailed: error => handleError(error, interaction)
         }
     )
