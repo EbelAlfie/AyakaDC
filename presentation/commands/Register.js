@@ -9,8 +9,13 @@ const RegisterCmd = () => {
 const execute = async (interaction) => {
     const hoyoRepository = require("../../data/HoyolabRepository.js")
 
-    const modal = require("../components/modals.js").LoginModal()
-    interaction.showModal(modal)
+    const modal = require("../components/modals.js").loginBuilder
+    interaction.showModal(modal.createModal())
+
+    interaction.awaitModalResponse() 
+    .then(result => {
+        console.log(`result ${result}`)
+    })
 }
 
 const handleError = (error, interaction) => {

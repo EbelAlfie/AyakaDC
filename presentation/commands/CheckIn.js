@@ -20,16 +20,13 @@ const execute = async (interaction) => {
 
 }
 
-const handleError = (error, interaction) => {
+const handleError = async (error, interaction) => {
 
     switch(error) {
         case NoUserError: {
             //Show modal
             const registerModule = require("./Register.js")
-            registerModule.execute(interaction)
-            .then(result => {
-                console.log(result)
-            })
+            await registerModule.execute(interaction)
         }
         default: 
             interaction.reply('Maaf yaa lagi error')
