@@ -2,8 +2,11 @@ import { ActionRowBuilder, TextInputBuilder } from "discord.js"
 
 const { TextInputStyle, ModalBuilder } = require("discord.js")
 
-const LoginModal = () => {
-    const userInput = new TextInputBuilder()
+class RegisterModal {
+    modalId: string = "registerModal"
+
+    createModal() {
+        const userInput = new TextInputBuilder()
         .setCustomId("email")
         .setLabel("Email")
         .setStyle(TextInputStyle.Short)
@@ -27,6 +30,9 @@ const LoginModal = () => {
             .setTitle(
                 "Minta username"
             )
+    }
 }
 
-export { LoginModal }
+export const Modal =  { 
+    registerModal: new RegisterModal()
+ }
