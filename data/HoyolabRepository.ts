@@ -14,41 +14,48 @@ class HoyolabRepositoryImpl implements HoyolabRepository {
         if (this.isUserLoggedIn()) 
             callback.onError(NoUserError) 
         else 
-            this._setCheckInHour(time)
+            this.remindCheckIn(time, callback)
     }
 
     isUserLoggedIn(): boolean {
-        return this._userExist()
-    }
-
-    addUser() {
-
+        return this.userExist()
     }
 
     registerUser() {
         //onlineApi.login()
     }
-    
-    _setCheckInHour(checkInTime: string) {
-        clearInterval(this.timerId) 
-        let time = Date.parse(checkInTime) 
-    }
 
-    _remindCheckIn(callback: BasicCallback<CheckInResponse>) {
-        this.time = Date.parse("12:00 am")
+    private remindCheckIn(
+        checkInTime: string,
+        callback: BasicCallback<CheckInResponse>
+    ) {
+        this.time = Date.parse(checkInTime)
         console.log(this.time)
         setInterval(() => {
             let hourNow = new Date().getHours()
             console.log(this.time, hourNow)
             console.log(this.time === hourNow)
-            if (this.time === hourNow) 
-                onlineApi.checkIn()
-                    .catch((error : Error) => callback.onError(error))
-                    .then((result: CheckInResponse) => callback.onSuccess(result))
+            if (this.time !== hourNow) return
+            
+            this.checkInAllUser(callback)
         }, 60000)
     }
 
-    _userExist() : boolean{
+    private checkInAllUser(callback: BasicCallback<CheckInResponse>) {
+        let userData = localApi.getAllUsers()
+        userData.forEach(item => {
+            onlineApi.checkIn(item.join("; "))
+            .catch((error : Error) => callback.onError(error))
+            .then((result: CheckInResponse) => callback.onSuccess(result))
+        })
+        
+    }
+
+    private checkInByUserId() {
+        
+    }
+
+    private userExist() : boolean{
         return localApi.isUserListEmpty()
     }
 
