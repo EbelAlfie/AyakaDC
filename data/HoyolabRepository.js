@@ -19,8 +19,8 @@ class HoyolabRepository {
         return localApi.isUserListEmpty()
     }
 
-    registerUser() {
-        //onlineApi.login()
+    registerUser(userModel) {
+        onlineApi.login(userModel)
     }
 
     #startReminder(checkInTime, callback) {

@@ -1,7 +1,8 @@
 const { SlashCommandBuilder } = require("discord.js")
 const { NoUserError } = require("../../domain/CheckInResCode.js")
+const { BaseCommand } = require("../models/BaseCommand.js")
 
-class CheckInCommand {
+class CheckInCommand extends BaseCommand {
     data = new SlashCommandBuilder()
         .setName("checkin")
         .setDescription("Schedule a checkin to hoyolab")

@@ -1,3 +1,6 @@
+const registerCmd = require("./commands/Register");
+const modals = require("./components/modals");
+
 const ChatInputHandler = async (interaction) => {
     const command = interaction.client.commands.get(interaction.commandName);
 
@@ -18,15 +21,6 @@ const ChatInputHandler = async (interaction) => {
     }
 }
 
-const ModalSubmitHandler = async (interaction) => {
-    console.log(interaction)
-
-    switch(interaction) {
-        
-    }
-}
-
 module.exports = { 
-    ChatInputHandler,
-    ModalSubmitHandler
+    ChatInputHandler
 }

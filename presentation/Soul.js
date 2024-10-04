@@ -1,5 +1,5 @@
 const { REST, Routes, Collection } = require("discord.js");
-const { ChatInputHandler, ModalSubmitHandler } = require("./InteractionHandler.js");
+const { ChatInputHandler } = require("./InteractionHandler.js");
 
 class Soul {
     fs = require('node:fs');
@@ -59,7 +59,6 @@ class Soul {
 
     async command(interaction) {
         if (interaction.isChatInputCommand()) ChatInputHandler(interaction);
-        if (interaction.isModalSubmit()) ModalSubmitHandler(interaction)
     }
 
 }

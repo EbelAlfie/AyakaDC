@@ -16,12 +16,15 @@ class Api {
     }
 
     login(user) {
-        const encryptedEmail = this.key?.encrypt({
-            text: user.email
+        console.log(process.env.MIHOYO_ENCRYPTION_KEY)
+        const encryptedEmail = this.key?.encryptStringWithRsaPublicKey({
+            text: user.email,
+            publicKey: process.env.MIHOYO_ENCRYPTION_KEY
         })
 
         const encryptedPass = this.key?.encryptStringWithRsaPublicKey({
-            text: user.password
+            text: user.password,
+            publicKey: process.env.MIHOYO_ENCRYPTION_KEY
         })
 
         let newRequest = {
