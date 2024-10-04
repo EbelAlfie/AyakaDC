@@ -21,27 +21,12 @@ const ChatInputHandler = async (interaction) => {
 const ModalSubmitHandler = async (interaction) => {
     console.log(interaction)
 
-    let email = interaction.fields.fields.get("email")
-    if (isModalError(email.value, interaction)) return 
-    let password = interaction.fields.fields.get("password")
-    if (isModalError(password.value, interaction)) return 
-    //TODO error handling
-
-
-    
-    console.log("PINGG")
+    switch(interaction) {
+        
+    }
 }
 
 module.exports = { 
     ChatInputHandler,
     ModalSubmitHandler
-}
-
-
-function isModalError(value, interaction) {
-    if (value === undefined) {
-        interaction.reply({content : `${value} kamu tidak lengkap`})
-        return true
-    }
-    return false
 }

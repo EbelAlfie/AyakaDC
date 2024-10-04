@@ -1,28 +1,36 @@
 const { SlashCommandBuilder } = require("discord.js")
+const { isModalError } = require("../utils.js")
 
-const RegisterCmd = () => {
-    return new SlashCommandBuilder()
+class RegisterCommand {
+    data = new SlashCommandBuilder()
         .setName("register")
         .setDescription("Command to register new user to hoyolab")
+
+    async execute(interaction) {
+        const hoyoRepository = require("../../data/HoyolabRepository.js")
+
+        const modal = require("../components/modals.js").loginBuilder
+        interaction.showModal(modal.createModal())
+    
+        // interaction.awaitModalSubmit({}) 
+        // .then(result => {
+        //     console.log(`result ${result}`)
+        // })
+    }
+
+    handleError(error, interaction) {
+
+    }
+
+    onModalSubmitted(interaction) {
+        let email = interaction.fields.getTextInputValue("email")
+        if (isModalError(email.value, interaction)) return 
+        let password = interaction.fields.getTextInputValue("password")
+        if (isModalError(password.value, interaction)) return 
+
+
+    }
 }
 
-const execute = async (interaction) => {
-    const hoyoRepository = require("../../data/HoyolabRepository.js")
-
-    const modal = require("../components/modals.js").loginBuilder
-    interaction.showModal(modal.createModal())
-
-    interaction.awaitModalResponse() 
-    .then(result => {
-        console.log(`result ${result}`)
-    })
-}
-
-const handleError = (error, interaction) => {
-
-}
-
-module.exports = {
-    data: RegisterCmd(),
-    execute: execute
-}
+const registerCmd = new RegisterCommand()
+module.exports = registerCmd
