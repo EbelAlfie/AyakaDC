@@ -37,6 +37,7 @@ export class Soul {
         for (const file of commandFolders) {
             const commandPath = join(foldersPath, file);
             const command = (await import(`/${commandPath}`)).default
+            
             if ('data' in command && 'execute' in command) {
                 client.commands.set(command.data.name, command)
                 commands.push(command.data.toJSON())

@@ -1,6 +1,6 @@
 import { TextInputBuilder, TextInputStyle, ActionRowBuilder, ModalBuilder } from "discord.js"
 export class LoginModalBuilder {
-    modalId = "registerModal"
+    static modalId = "registerModal"
 
     createModal() {
         const userInput = new TextInputBuilder()
@@ -19,7 +19,7 @@ export class LoginModalBuilder {
         const password = new ActionRowBuilder().addComponents(passInput)
     
         return new ModalBuilder()
-            .setCustomId(this.modalId)
+            .setCustomId(LoginModalBuilder.modalId)
             .setTitle("Minta username")
             .setComponents(
                 username, password

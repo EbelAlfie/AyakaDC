@@ -10,7 +10,7 @@ class RegisterCommand extends BaseCommand {
         .setDescription("Command to register new user to hoyolab")
 
     async execute(interaction) {
-        const modal = LoginModalBuilder()
+        const modal = new LoginModalBuilder()
         interaction.showModal(modal.createModal())
 
         const submitted = await interaction.awaitModalSubmit({
