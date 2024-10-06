@@ -20,8 +20,7 @@ class RegisterCommand extends BaseCommand {
             return null
           })
           
-        if (submitted) 
-            await this.onModalSubmitted(submitted)
+        if (submitted) await this.onModalSubmitted(submitted)
     }
 
     handleError(error, interaction) {
@@ -40,10 +39,6 @@ class RegisterCommand extends BaseCommand {
             email: email.value,
             password: password.value
         })
-        
-        await submitted.reply({
-            content: `Your age is ${email}, and your name is ${password}. Hi!`
-        }) 
     }
 }
 
