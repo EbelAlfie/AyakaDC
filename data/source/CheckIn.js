@@ -1,4 +1,4 @@
-async function checkIn(cookies) {
+export async function checkIn(cookies) {
   const headers = new Headers();
   headers.append("accept", "application/json, text/plain, */*");
   headers.append("accept-language", "en-US,en;q=0.9,id;q=0.8");
@@ -32,5 +32,3 @@ async function checkIn(cookies) {
     return error
   })
 }
-
-module.exports = { checkIn } 

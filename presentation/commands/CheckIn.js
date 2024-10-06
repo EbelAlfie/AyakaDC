@@ -1,6 +1,7 @@
-const { SlashCommandBuilder } = require("discord.js")
-const { NoUserError } = require("../../domain/CheckInResCode.js")
-const { BaseCommand } = require("../models/BaseCommand.js")
+import { SlashCommandBuilder } from "discord.js"
+import { NoUserError } from "../../domain/CheckInResCode.js"
+import BaseCommand from "../models/BaseCommand.js"
+import { hoyoRepository } from "../../data/HoyolabRepository.js"
 
 class CheckInCommand extends BaseCommand {
     data = new SlashCommandBuilder()
@@ -8,8 +9,6 @@ class CheckInCommand extends BaseCommand {
         .setDescription("Schedule a checkin to hoyolab")
 
     async execute(interaction) {
-        const hoyoRepository = require("../../data/HoyolabRepository.js")
-
         hoyoRepository.scheduleCheckIn(
             "",
             {
@@ -43,4 +42,4 @@ class CheckInCommand extends BaseCommand {
 }
 
 const checkInCommand = new CheckInCommand()
-module.exports = checkInCommand
+export default checkInCommand

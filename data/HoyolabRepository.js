@@ -1,5 +1,5 @@
-const { NoUserError } = require("../domain/CheckInResCode.js")
-const { onlineApi, localApi } = require("./source/api")
+import { NoUserError } from "../domain/CheckInResCode.js"
+import { onlineApi, localApi } from "./source/api.js"
 
 class HoyolabRepository {
     time = null
@@ -48,6 +48,4 @@ class HoyolabRepository {
 
 }
 
-const hoyoRepository = new HoyolabRepository()
-
-module.exports = hoyoRepository
+export const hoyoRepository = new HoyolabRepository()

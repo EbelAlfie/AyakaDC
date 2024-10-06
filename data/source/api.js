@@ -1,5 +1,10 @@
+import NodeRSA from "encrypt-rsa"
+import { checkIn } from "./CheckIn.js"
+import { login } from "./Login.js"
+import 'dotenv/config'
+import { env } from 'node:process'
+
 class Api {
-    checkIn = require("./CheckIn")
     key = null
 
     constructor() {
@@ -7,24 +12,24 @@ class Api {
     }
 
     #initApi() {
-        const NodeRSA = require("encrypt-rsa").default
-        this.key = new NodeRSA(process.env.MIHOYO_ENCRYPTION_KEY)
+        const publicKey = env.MIHOYO_ENCRYPTION_KEY
+        this.key = new NodeRSA.default(publicKey)
     }
 
     checkIn() {
         return checkIn()
     }
 
-    login(user) {
-        console.log(process.env.MIHOYO_ENCRYPTION_KEY)
+    async login(user) {
+        const publicKey = env.MIHOYO_ENCRYPTION_KEY
         const encryptedEmail = this.key?.encryptStringWithRsaPublicKey({
             text: user.email,
-            publicKey: process.env.MIHOYO_ENCRYPTION_KEY
+            publicKey: publicKey
         })
 
         const encryptedPass = this.key?.encryptStringWithRsaPublicKey({
             text: user.password,
-            publicKey: process.env.MIHOYO_ENCRYPTION_KEY
+            publicKey: publicKey
         })
 
         let newRequest = {
@@ -66,4 +71,4 @@ const onlineApi = new Api()
 
 const localApi = new Local()
 
-module.exports = { onlineApi, localApi }
+export { onlineApi, localApi }

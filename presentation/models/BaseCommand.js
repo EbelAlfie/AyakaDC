@@ -1,4 +1,4 @@
-export class BaseCommand {
+export default class BaseCommand {
     data = null
 
     async execute(interaction) {}

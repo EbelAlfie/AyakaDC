@@ -1,7 +1,4 @@
-const registerCmd = require("./commands/Register");
-const modals = require("./components/modals");
-
-const ChatInputHandler = async (interaction) => {
+export const ChatInputHandler = async (interaction) => {
     const command = interaction.client.commands.get(interaction.commandName);
 
     if (!command) {
@@ -19,8 +16,4 @@ const ChatInputHandler = async (interaction) => {
             await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
         }
     }
-}
-
-module.exports = { 
-    ChatInputHandler
 }

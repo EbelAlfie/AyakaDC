@@ -1,8 +1,9 @@
-const {Client, GatewayIntentBits, Events } = require("discord.js") ;
-const Ayaka = require("./presentation/Soul.js") ;
-const { ayakaDiscord } = 
-    require("./config/config.json") ;
+import {Client, GatewayIntentBits, Events } from "discord.js" ;
+import { Soul } from"./presentation/Soul.js" ;
+import 'dotenv/config'
+import { env } from 'node:process'
 
+const ayakaDiscord = env.AYAKA_DC_TOKEN
 const client = new Client({ intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
@@ -10,7 +11,7 @@ const client = new Client({ intents: [
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.DirectMessageTyping,
 ] }) 
-const ayaka = new Ayaka();
+const ayaka = new Soul();
 
 client.once(Events.ClientReady, () => ayaka.onReady(client)) ;
 

@@ -1,5 +1,5 @@
-const { TextInputBuilder, TextInputStyle, ActionRowBuilder, ModalBuilder } = require("discord.js")
-class LoginModalBuilder {
+import { TextInputBuilder, TextInputStyle, ActionRowBuilder, ModalBuilder } from "discord.js"
+export class LoginModalBuilder {
     modalId = "registerModal"
 
     createModal() {
@@ -25,9 +25,4 @@ class LoginModalBuilder {
                 username, password
             )
     }
-}
-
-
-module.exports = {
-    loginBuilder: new LoginModalBuilder()
 }

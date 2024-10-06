@@ -1,4 +1,4 @@
-class Brain {
+export class Brain {
     #puppeteer = require("puppeteer") ;
     #browser = null ;
     constructor() {
@@ -43,8 +43,3 @@ class Brain {
 
     }
 }
-
-const brain = new Brain() ;
-brain.goTo() ;
-
-module.exports = Brain

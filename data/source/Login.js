@@ -1,4 +1,4 @@
-async function login(requestBody) {
+export async function login(requestBody) {
 
   const myHeaders = new Headers();
   myHeaders.append("Accept", "application/json, text/plain, */*");

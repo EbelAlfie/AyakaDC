@@ -1,4 +1,4 @@
-const { ButtonBuilder, ButtonStyle, ActionRow, ActionRowBuilder } = require("discord.js")
+import { ButtonBuilder, ButtonStyle, ActionRow, ActionRowBuilder } from "discord.js"
 
 const CheckInButton = () => {
     const btnCheckIn = new ButtonBuilder()
@@ -18,6 +18,6 @@ const LoginButton = () => {
         .addComponents(btnLogin) 
 }
 
-module.exports = {
+export {
     CheckInButton, LoginButton
 }

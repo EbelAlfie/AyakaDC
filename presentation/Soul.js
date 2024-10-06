@@ -1,22 +1,22 @@
-const { REST, Routes, Collection } = require("discord.js");
-const { ChatInputHandler } = require("./InteractionHandler.js");
+import { REST, Routes, Collection } from "discord.js";
+import { ChatInputHandler } from "./InteractionHandler.js";
+import { readdirSync } from "node:fs"
+import { join, dirname } from "node:path"
+import { fileURLToPath } from 'url'
 
-class Soul {
-    fs = require('node:fs');
-    path = require('node:path');
-    hoyoRepository = require("../data/HoyolabRepository.js")
+export class Soul {
     isCheckIn = false
 
     constructor() {
-        const Brain = require("./CharacterAi.js")  ;
-        this.brain = new Brain() ;
+        //const Brain = require("./CharacterAi.js")  ;
+        this.brain = null//new Brain() ;
     }
 
     onReady(client) {
         console.log(`Logged in as ${client.user.tag}`) ;
         this.#registerCommand(client)
         //log in to character ai
-        this.brain.bringToLive() ;
+        //this.brain.bringToLive() ;
     }
 
     async reply(interaction) {
@@ -28,20 +28,20 @@ class Soul {
 
     async #registerCommand(client) {
         client.commands = new Collection()
-        
-        const foldersPath = this.path.join(__dirname, 'commands');
-        const commandFolders = this.fs.readdirSync(foldersPath); 
+
+        const foldersPath = join(import.meta.dirname, 'commands');
+        const commandFolders = readdirSync(foldersPath); 
 
         let commands = []
 
         for (const file of commandFolders) {
-            const commandPath = this.path.join(foldersPath, file);
-            const command = require(commandPath)
+            const commandPath = join(foldersPath, file);
+            const command = (await import(`/${commandPath}`)).default
             if ('data' in command && 'execute' in command) {
                 client.commands.set(command.data.name, command)
                 commands.push(command.data.toJSON())
             } else {
-                console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+                console.log(`[WARNING] The command at ${commandPath} is missing a required "data" or "execute" property.`);
             }
         }
 
@@ -62,5 +62,3 @@ class Soul {
     }
 
 }
-
-module.exports = Soul ;

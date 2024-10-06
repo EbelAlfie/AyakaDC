@@ -1,4 +1,4 @@
-const TimeSpinner = () => {
+export const TimeSpinner = () => {
     const row = new MessageActionRow()
 			.addComponents(
 				new MessageSelectMenu()
@@ -7,8 +7,4 @@ const TimeSpinner = () => {
 					.addOptions(),
 			);
     return row
-}
-
-module.exports = {
-    TimeSpinner
 }
