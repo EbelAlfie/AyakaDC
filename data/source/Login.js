@@ -39,4 +39,5 @@ export async function login(requestBody) {
   };
   
   return fetch("https://sg-public-api.hoyolab.com/account/ma-passport/api/webLoginByPassword", requestOptions)
+    .then(result => result.json())
 }

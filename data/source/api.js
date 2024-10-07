@@ -3,6 +3,7 @@ import { checkIn } from "./CheckIn.js"
 import { login } from "./Login.js"
 import 'dotenv/config'
 import { env } from 'node:process'
+import encryptStringWithRsaPublicKey from "../util.js"
 
 class Api {
     key = null
@@ -13,7 +14,7 @@ class Api {
 
     #initApi() {
         const publicKey = env.MIHOYO_ENCRYPTION_KEY
-        this.key = new NodeRSA.default(publicKey)
+        this.key = new NodeRSA.default(publicKey, "", 2048)
     }
 
     checkIn() {
@@ -22,24 +23,27 @@ class Api {
 
     async login(user) {
         const publicKey = env.MIHOYO_ENCRYPTION_KEY
-        const encryptedEmail = this.key?.encryptStringWithRsaPublicKey({
+        const encryptedEmail = encryptStringWithRsaPublicKey({
             text: user.email,
             publicKey: publicKey
         })
 
-        const encryptedPass = this.key?.encryptStringWithRsaPublicKey({
+        const encryptedPass = encryptStringWithRsaPublicKey({
             text: user.password,
             publicKey: publicKey
         })
 
+        console.log(encryptedEmail)
+
         let newRequest = {
-            email: encryptedEmail||"",
+            account: encryptedEmail||"",
             password: encryptedPass||"",
             tokenType: 2
         }
         
         return login(newRequest)
             .then(result => {
+                console.log(result)
                 let cookies = result.headers["set-cookie"]
                 if (cookies !== undefined)
                     localApi.login(request, cookies)
