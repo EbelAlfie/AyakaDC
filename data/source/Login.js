@@ -17,6 +17,7 @@ export async function login(requestBody) {
   myHeaders.append("x-rpc-aigis_v4", "true");
   myHeaders.append("x-rpc-app_version", "");
   myHeaders.append("x-rpc-client_type", "4");
+  myHeaders.append("x-rpc-app_id", "ce1tbuwb00zk");
   myHeaders.append("x-rpc-device_model", "Chrome Mobile 128.0.0.0");
   myHeaders.append("x-rpc-device_name", "Chrome Mobile");
   myHeaders.append("x-rpc-device_os", "Android 6.0");
