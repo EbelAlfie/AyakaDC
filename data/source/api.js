@@ -1,4 +1,5 @@
 import NodeRSA from "encrypt-rsa"
+import { publicEncrypt } from "node:crypto"
 import { checkIn } from "./CheckIn.js"
 import { login } from "./Login.js"
 import 'dotenv/config'
@@ -12,8 +13,7 @@ class Api {
     }
 
     #initApi() {
-        const publicKey = env.MIHOYO_ENCRYPTION_KEY
-        this.key = new NodeRSA.default(publicKey)
+        this.key = new NodeRSA.default()
     }
 
     checkIn() {
@@ -33,13 +33,14 @@ class Api {
         })
 
         let newRequest = {
-            email: encryptedEmail||"",
+            account: encryptedEmail||"",
             password: encryptedPass||"",
             tokenType: 2
         }
         
         return login(newRequest)
             .then(result => {
+                console.log(result.data)
                 let cookies = result.headers["set-cookie"]
                 if (cookies !== undefined)
                     localApi.login(request, cookies)
