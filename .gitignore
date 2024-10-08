@@ -1,4 +1,4 @@
-/config
+/raw
 /node_modules
 .env-dev
 .env
