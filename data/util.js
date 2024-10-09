@@ -6,5 +6,5 @@ export function encryptWithPublicKey(args) {
     rsa.setPublicKey(publicKey)
     let encrypted = rsa.encrypt(message)
 
-    console.log(encrypted)
+    return encrypted 
 }

@@ -1,10 +1,8 @@
-import NodeRSA from "encrypt-rsa"
-import { publicEncrypt } from "node:crypto"
 import { checkIn } from "./CheckIn.js"
 import { login } from "./Login.js"
 import 'dotenv/config'
 import { env } from 'node:process'
-import encryptStringWithRsaPublicKey, { encryptWithPublicKey } from "../util.js"
+import { encryptWithPublicKey } from "../util.js"
 
 class Api {
     key = null
@@ -14,8 +12,7 @@ class Api {
     }
 
     #initApi() {
-        const publicKey = env.MIHOYO_ENCRYPTION_KEY
-        this.key = new NodeRSA.default(publicKey, "", 2048)
+        
     }
 
     checkIn() {
@@ -33,8 +30,6 @@ class Api {
             message: user.password,
             publicKey: publicKey
         })
-
-        console.log(encryptedEmail)
 
         let newRequest = {
             account: encryptedEmail||"",
