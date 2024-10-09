@@ -42,5 +42,4 @@ class RegisterCommand extends BaseCommand {
     }
 }
 
-const registerCmd = new RegisterCommand()
-export default registerCmd
+export const command = new RegisterCommand()

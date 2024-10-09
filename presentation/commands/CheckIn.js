@@ -32,14 +32,13 @@ class CheckInCommand extends BaseCommand {
     
     sendCheckInMessage(result, interaction) {
         let message = ""
-        if (result.retcode < 0)
+        if (result.retcode != ResponseSuccess)
             message = result.message
         else 
-            message = "Sukses check in ya, traveler sayang"
+            message = "Sukses check in ya, traveler"
     
         interaction.channel.send(message)
     }
 }
 
-const checkInCommand = new CheckInCommand()
-export default checkInCommand
+export const command = new CheckInCommand()

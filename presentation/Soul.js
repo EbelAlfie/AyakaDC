@@ -1,31 +1,24 @@
 import { REST, Routes, Collection } from "discord.js";
 import { ChatInputHandler } from "./InteractionHandler.js";
 import { readdirSync } from "node:fs"
-import { join, dirname } from "node:path"
-import { fileURLToPath } from 'url'
+import { join } from "node:path"
+import BaseCommand from "./models/BaseCommand.js";
 
 export class Soul {
     isCheckIn = false
 
-    constructor() {
-        //const Brain = require("./CharacterAi.js")  ;
-        this.brain = null//new Brain() ;
-    }
-
     onReady(client) {
         console.log(`Logged in as ${client.user.tag}`) ;
         this.#registerCommand(client)
-        //log in to character ai
-        //this.brain.bringToLive() ;
     }
 
     async reply(interaction) {
         if (interaction.author.bot) return
 
-        await interaction.channel.send("Hello") ;
-        //await this.brain.goTo() ;
+        await interaction.channel.send("Ad astra abysosque") ;
     }
 
+    /** Register all available slash command */
     async #registerCommand(client) {
         client.commands = new Collection()
 
@@ -36,9 +29,9 @@ export class Soul {
 
         for (const file of commandFolders) {
             const commandPath = join(foldersPath, file);
-            const command = (await import(commandPath)).default
+            const command = (await import(commandPath)).command
             
-            if ('data' in command && 'execute' in command) {
+            if (command instanceof BaseCommand) {
                 client.commands.set(command.data.name, command)
                 commands.push(command.data.toJSON())
             } else {
@@ -58,6 +51,7 @@ export class Soul {
         });
     }
 
+    /** Command handler */
     async command(interaction) {
         if (interaction.isChatInputCommand()) ChatInputHandler(interaction);
     }
