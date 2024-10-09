@@ -11,8 +11,13 @@ class Local {
         return this.userData.size >= 0
     }
 
-    storeUser(newUserData) {
-        userData.push(newUserData)
+    existingUser(userModel) {
+        return this.userData.has(userModel)
+    }
+
+    storeUser(key, value) {
+        console.log(key, value)
+        this.userData.set(key, value)
     }
 }
 

@@ -1,6 +1,7 @@
 import { REST, Routes, Collection } from "discord.js";
 import { ChatInputHandler } from "./InteractionHandler.js";
 import { readdirSync } from "node:fs"
+import { pathToFileURL } from "url"
 import { join } from "node:path"
 import BaseCommand from "./models/BaseCommand.js";
 
@@ -22,14 +23,15 @@ export class Soul {
     async #registerCommand(client) {
         client.commands = new Collection()
 
-        const foldersPath = join(import.meta.dirname, 'commands');
-        const commandFolders = readdirSync(foldersPath); 
+        const foldersPath = join(import.meta.dirname, 'commands')
+        const commandFolders = readdirSync(foldersPath)
 
         let commands = []
 
         for (const file of commandFolders) {
-            const commandPath = join(foldersPath, file);
-            const command = (await import(commandPath)).command
+            const commandPath = join(foldersPath, file)
+            const formattedPath = pathToFileURL(commandPath)
+            const command = (await import(formattedPath)).command
             
             if (command instanceof BaseCommand) {
                 client.commands.set(command.data.name, command)

@@ -29,13 +29,6 @@ export async function login(requestBody) {
     "x-rpc-sdk_version": "2.31.0"
   }
 
-  const raw = JSON.stringify({
-    "account": requestBody.account,
-    "password": requestBody.password,
-    "token_type": 2
-  });
-
-  console.log(requestBody)
   return axios.post(
     "https://sg-public-api.hoyolab.com/account/ma-passport/api/webLoginByPassword", 
     {

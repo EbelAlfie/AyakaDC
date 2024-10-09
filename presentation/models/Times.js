@@ -46,5 +46,5 @@ export const Times = [
   {
     label: '12:00',
     value: '12:00',
-  },
+  }
 ]

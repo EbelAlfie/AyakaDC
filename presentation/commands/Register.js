@@ -35,10 +35,26 @@ class RegisterCommand extends BaseCommand {
         let password = fields.fields.get("password")
         if (isModalError(password.value, interaction)) return 
         
-        hoyoRepository.registerUser({
-            email: email.value,
-            password: password.value
-        })
+        hoyoRepository.registerUser(
+            {
+                email: email.value,
+                password: password.value
+            },
+            {
+                onSucess: () => 
+                    this.#onRegistrationSuccess(interaction),
+                onFailed: error => 
+                    this.#onRegistrationFailed(interaction, error)
+            }
+        )
+    }
+
+    async #onRegistrationSuccess(interaction) {
+        interaction.reply("Register sukses yaa")
+    }
+
+    async #onRegistrationFailed(interaction, error) {
+        interaction.reply(error.message)
     }
 }
 

@@ -1,10 +1,12 @@
+import { StringSelectMenuBuilder } from "discord.js";
+
 export const TimeSpinner = () => {
-    const row = new MessageActionRow()
-			.addComponents(
-				new MessageSelectMenu()
-					.setCustomId(id)
-					.setPlaceholder(defaultValue)
-					.addOptions(),
-			);
+
+	
+
+    const row = new StringSelectMenuBuilder()
+		.setCustomId("scheduleSelect")
+		.setPlaceholder("Select your schedule")
+		.addOptions();
     return row
 }

@@ -1,4 +1,4 @@
-import { NoUserError } from "../domain/CheckInResCode.js"
+import { NoUserError, ResponseSuccess } from "../domain/CheckInResCode.js"
 import onlineApi from "./source/api.js"
 import localApi from "./source/local.js"
 
@@ -10,21 +10,35 @@ class HoyolabRepository {
 
     /** Public */
     scheduleCheckIn(time, callback) {
-        if (this.#isUserLoggedIn()) 
+        if (this.#noUserExist()) 
             callback.onFailed(NoUserError) 
         else 
             this.#startReminder(time, callback)
     }
 
-    registerUser(userModel) {
-        onlineApi.login(userModel)
+    async registerUser(userModel, callback) {
+        if (localApi.existingUser(userModel))
+            callback.onFailed(Error("User already exist"))
+        return onlineApi.login(userModel)
         .then(result => {
-            
-            let cookies = result.headers["set-cookie"]
-            if (cookies !== undefined)
-                localApi.storeUser(request, cookies)
+            const data = result.data
+            switch(data.retcode) {
+                case ResponseSuccess : {
+                    console.log(result.headers)
+                    let cookies = result.headers.get("set-cookie")
+                    if (cookies !== undefined) {
+                        localApi.storeUser(userModel, cookies)
+                        callback.onSuccess()
+                    } else 
+                        callback.onFailed(Error("No cookie :(")) 
+                    break
+                }
+                default: 
+                    callback.onFailed(Error(data.message))
+            }
             return result
         })
+        .catch(error => callback.onFailed(error))
     }
 
     /** Privates */
@@ -50,7 +64,7 @@ class HoyolabRepository {
         })
     }
 
-    #isUserLoggedIn() {
+    #noUserExist() {
         return localApi.isUserListEmpty()
     }
 
