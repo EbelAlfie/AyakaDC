@@ -4,7 +4,7 @@ import { checkIn } from "./CheckIn.js"
 import { login } from "./Login.js"
 import 'dotenv/config'
 import { env } from 'node:process'
-import encryptStringWithRsaPublicKey from "../util.js"
+import encryptStringWithRsaPublicKey, { encryptWithPublicKey } from "../util.js"
 
 class Api {
     key = null
@@ -24,13 +24,13 @@ class Api {
 
     async login(user) {
         const publicKey = env.MIHOYO_ENCRYPTION_KEY
-        const encryptedEmail = encryptStringWithRsaPublicKey({
-            text: user.email,
+        const encryptedEmail = encryptWithPublicKey({
+            message: user.email,
             publicKey: publicKey
         })
 
-        const encryptedPass = encryptStringWithRsaPublicKey({
-            text: user.password,
+        const encryptedPass = encryptWithPublicKey({
+            message: user.password,
             publicKey: publicKey
         })
 
