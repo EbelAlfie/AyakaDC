@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js"
 import { NoUserError } from "../../domain/CheckInResCode.js"
 import BaseCommand from "../models/BaseCommand.js"
 import { hoyoRepository } from "../../data/HoyolabRepository.js"
+import * as register from "./Register.js"
 
 class CheckInCommand extends BaseCommand {
     data = new SlashCommandBuilder()
@@ -22,8 +23,7 @@ class CheckInCommand extends BaseCommand {
         switch(error) {
             case NoUserError: {
                 //Show modal
-                const registerModule = require("./Register.js")
-                await registerModule.execute(interaction)
+                await register.command.execute(interaction)
             }
             default: 
                 interaction.reply('Maaf yaa lagi error')
