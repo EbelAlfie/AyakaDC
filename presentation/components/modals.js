@@ -1,11 +1,9 @@
 import { TextInputBuilder, TextInputStyle, ActionRowBuilder, ModalBuilder } from "discord.js"
-import { BaseModal } from "../models/BaseModal.js"
-import { TimeSpinner } from "./selection.js"
+import { BaseComponent } from "../models/BaseComponent.js"
+export class LoginModalBuilder extends BaseComponent {
+    static componentId = "registerModal"
 
-export class LoginModalBuilder extends BaseModal {
-    static modalId = "registerModal"
-
-    createModal() {
+    createComponent() {
         const userInput = new TextInputBuilder()
         .setCustomId("email")
         .setLabel("Email")
@@ -22,7 +20,7 @@ export class LoginModalBuilder extends BaseModal {
         const password = new ActionRowBuilder().addComponents(passInput)
     
         return new ModalBuilder()
-            .setCustomId(LoginModalBuilder.modalId)
+            .setCustomId(LoginModalBuilder.componentId)
             .setTitle("Minta username")
             .setComponents(
                 username, password

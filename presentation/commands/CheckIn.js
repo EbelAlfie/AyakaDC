@@ -1,4 +1,4 @@
-import { ActionRowBuilder, SlashCommandBuilder } from "discord.js"
+import { SlashCommandBuilder } from "discord.js"
 import { NoUserError } from "../../domain/CheckInResCode.js"
 import BaseCommand from "../models/BaseCommand.js"
 import { hoyoRepository } from "../../data/HoyolabRepository.js"
@@ -11,13 +11,10 @@ class CheckInCommand extends BaseCommand {
         .setDescription("Schedule a checkin to hoyolab")
         
     async execute(interaction) {
-        const time = TimeSpinner()
-
-        const row = new ActionRowBuilder()
-            .addComponents(time)
-
+        const time = new TimeSpinner()
+        
         interaction.reply({
-            components: [row]
+            components: [time.createComponent()]
         })
     }
 

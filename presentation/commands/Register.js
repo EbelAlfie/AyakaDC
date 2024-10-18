@@ -11,7 +11,7 @@ class RegisterCommand extends BaseCommand {
 
     async execute(interaction) {
         const modal = new LoginModalBuilder()
-        interaction.showModal(modal.createModal())
+        interaction.showModal(modal.createComponent())
 
         const submitted = await interaction.awaitModalSubmit({
             time: 60000,

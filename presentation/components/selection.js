@@ -1,19 +1,26 @@
-import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
+import { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
 import { Times } from "../models/Times.js";
+import { BaseComponent } from "../models/BaseComponent.js";
 
-const options = () => {
-	return Times.map(item => {
-		return new StringSelectMenuOptionBuilder()
-			.setLabel(item.label)
-			.setDescription("O'clock")
-			.setValue(item.value)
-	})
-}
+export class TimeSpinner extends BaseComponent {
+	static componentId = "scheduleSelect"
 
-export const TimeSpinner = () => {
-    const selection = new StringSelectMenuBuilder()
-		.setCustomId("scheduleSelect")
-		.setPlaceholder("Select your schedule")
-		.addOptions(options());
-    return selection
+	createComponent() {
+		const selection = new StringSelectMenuBuilder()
+			.setCustomId(TimeSpinner.componentId)
+			.setPlaceholder("Select your schedule")
+			.addOptions(this.options());
+    	const row = new ActionRowBuilder()
+			.addComponents(selection)
+		return row
+	}
+
+	options() {
+		return Times.map(item => {
+			return new StringSelectMenuOptionBuilder()
+				.setLabel(item.label)
+				.setDescription("O'clock")
+				.setValue(item.value)
+		})
+	}
 }
