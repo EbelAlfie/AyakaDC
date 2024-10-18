@@ -1,9 +1,9 @@
 import { StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
-import { Times } from "../models/Times";
+import { Times } from "../models/Times.js";
 
 const options = () => {
 	return Times.map(item => {
-		new StringSelectMenuOptionBuilder()
+		return new StringSelectMenuOptionBuilder()
 			.setLabel(item.label)
 			.setDescription("O'clock")
 			.setValue(item.value)
@@ -11,9 +11,9 @@ const options = () => {
 }
 
 export const TimeSpinner = () => {
-    const row = new StringSelectMenuBuilder()
+    const selection = new StringSelectMenuBuilder()
 		.setCustomId("scheduleSelect")
 		.setPlaceholder("Select your schedule")
-		.addOptions(options);
-    return row
+		.addOptions(options());
+    return selection
 }

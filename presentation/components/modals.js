@@ -1,5 +1,8 @@
 import { TextInputBuilder, TextInputStyle, ActionRowBuilder, ModalBuilder } from "discord.js"
-export class LoginModalBuilder {
+import { BaseModal } from "../models/BaseModal.js"
+import { TimeSpinner } from "./selection.js"
+
+export class LoginModalBuilder extends BaseModal {
     static modalId = "registerModal"
 
     createModal() {
