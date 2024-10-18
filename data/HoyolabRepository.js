@@ -3,17 +3,22 @@ import onlineApi from "./source/api.js"
 import localApi from "./source/local.js"
 
 class HoyolabRepository {
-    time = null
     timerId = "check_in"
 
     constructor() {}
 
     /** Public */
-    scheduleCheckIn(time, callback) {
-        if (this.#noUserExist()) 
-            callback.onFailed(NoUserError) 
-        else 
-            this.#startReminder(time, callback)
+    startReminder(checkInTime, callback) {
+        time = Date.parse(checkInTime)
+        console.log(this.time)
+        setInterval(() => {
+            let hourNow = new Date().getHours()
+            console.log(time, hourNow)
+            console.log(time === hourNow)
+            if (time !== hourNow) return
+            
+            this.#checkInAllUser(callback)
+        }, 60000)
     }
 
     async registerUser(userModel, callback) {
@@ -41,20 +46,11 @@ class HoyolabRepository {
         .catch(error => callback.onFailed(error))
     }
 
-    /** Privates */
-    #startReminder(checkInTime, callback) {
-        this.time = Date.parse(checkInTime)
-        console.log(this.time)
-        setInterval(() => {
-            let hourNow = new Date().getHours()
-            console.log(this.time, hourNow)
-            console.log(this.time === hourNow)
-            if (this.time !== hourNow) return
-            
-            this.#checkInAllUser(callback)
-        }, 60000)
+    noUserExist() {
+        return localApi.isUserListEmpty()
     }
 
+    /** Privates */
     #checkInAllUser(callback) {
         let userData = localApi.getAllUsers()
         userData.forEach(item => {
@@ -63,11 +59,6 @@ class HoyolabRepository {
             .then(result => callback.onSuccess(result))
         })
     }
-
-    #noUserExist() {
-        return localApi.isUserListEmpty()
-    }
-
 }
 
 export const hoyoRepository = new HoyolabRepository()

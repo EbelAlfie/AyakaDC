@@ -11,11 +11,10 @@ class CheckInCommand extends BaseCommand {
         .setDescription("Schedule a checkin to hoyolab")
         
     async execute(interaction) {
-        const time = new TimeSpinner()
-        
-        interaction.reply({
-            components: [time.createComponent()]
-        })
+        if (hoyoRepository.noUserExist()) 
+            this.handleError(NoUserError, interaction)
+        else    
+            this.#promptSelectTime(interaction)
     }
 
     async handleError(error, interaction) {
@@ -27,6 +26,13 @@ class CheckInCommand extends BaseCommand {
             default: 
                 interaction.reply('Maaf yaa lagi error')
         }
+    }
+
+    #promptSelectTime(interaction) {
+        const time = new TimeSpinner()
+        interaction.reply({
+            components: [time.createComponent()]
+        })
     }
 
     onTimeSelect(time) {
