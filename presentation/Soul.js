@@ -8,6 +8,7 @@ import BaseCommand from "./models/BaseCommand.js";
 export class Soul {
     isCheckIn = false
 
+    /** Called when the bot has logged in */
     onReady(client) {
         console.log(`Logged in as ${client.user.tag}`) ;
         this.#registerCommand(client)
@@ -19,7 +20,7 @@ export class Soul {
         await interaction.channel.send("Ad astra abysosque") ;
     }
 
-    /** Register all available slash command */
+    /** Register all available slash command from commands folder*/
     async #registerCommand(client) {
         client.commands = new Collection()
 

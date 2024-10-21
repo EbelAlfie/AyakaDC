@@ -26,24 +26,29 @@ class HoyolabRepository {
             callback.onFailed(Error("User already exist"))
         return onlineApi.login(userModel)
         .then(result => {
-            const data = result.data
-            switch(data.retcode) {
-                case ResponseSuccess : {
-                    console.log(result.headers)
-                    let cookies = result.headers.get("set-cookie")
-                    if (cookies !== undefined) {
-                        localApi.storeUser(userModel, cookies)
-                        callback.onSuccess()
-                    } else 
-                        callback.onFailed(Error("No cookie :(")) 
-                    break
-                }
-                default: 
-                    callback.onFailed(Error(data.message))
-            }
+            console.log(result)
+            this.#onRegistered(result, userModel, callback)
             return result
         })
         .catch(error => callback.onFailed(error))
+    }
+
+    #onRegistered(result, userModel, callback) {
+        const data = result.data
+        switch(data.retcode) {
+            case ResponseSuccess : {
+                console.log(result.headers)
+                let cookies = result.headers.get("set-cookie")
+                if (cookies !== undefined) {
+                    localApi.storeUser(userModel, cookies)
+                    callback.onSuccess()
+                } else 
+                    callback.onFailed(Error("No cookie :(")) 
+                break
+            }
+            default: 
+                callback.onFailed(Error(data.message))
+        }
     }
 
     noUserExist() {

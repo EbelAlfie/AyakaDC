@@ -22,6 +22,7 @@ class CheckInCommand extends BaseCommand {
             case NoUserError: {
                 //Show modal
                 await register.command.execute(interaction)
+                break; 
             }
             default: 
                 interaction.reply('Maaf yaa lagi error')

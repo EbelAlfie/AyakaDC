@@ -17,3 +17,7 @@ export const ChatInputHandler = async (interaction) => {
         }
     }
 }
+
+export const CommandHandler = async (interaction) => {
+    
+}
