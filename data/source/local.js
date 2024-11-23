@@ -1,5 +1,5 @@
 class Local {
-    userData = new Map() //Pair of userdata and cookies
+    userData = new Map() //Pair of email and cookies
 
     constructor() {}
 
@@ -11,16 +11,12 @@ class Local {
         return this.userData.size >= 0
     }
 
-    existingUser(userModel) {
-        console.log(this.userData.has(userModel))
-        console.log(this.userData)
-        return this.userData.has(userModel)
+    existingUser(email) {
+        return this.userData.has(email)
     }
 
-    storeUser(key, value) {
-        console.log(this.userData.has(userModel))
-        //console.log(`key ${key}, value: ${value}`)
-        this.userData.set(key, value)
+    storeUser(email, cookie) {
+        this.userData.set(email, cookie)
     }
 }
 
