@@ -8,7 +8,7 @@ class Local {
     }
 
     isUserListEmpty() {
-        return this.userData.size >= 0
+        return this.userData.size <= 0
     }
 
     existingUser(email) {
