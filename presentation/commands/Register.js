@@ -3,6 +3,7 @@ import { isModalError } from "../utils.js"
 import { LoginModalBuilder } from "../components/modals.js"
 import { hoyoRepository } from "../../data/HoyolabRepository.js"
 import BaseCommand from "../models/BaseCommand.js"
+import { eventBus } from "../models/EventBus.js"
 
 /** A slash command to register users to hoyolab api */
 class RegisterCommand extends BaseCommand {
@@ -11,24 +12,25 @@ class RegisterCommand extends BaseCommand {
         .setDescription("Command to register new user to hoyolab")
 
     async execute(interaction) {
-        const modal = new LoginModalBuilder()
-        interaction.showModal(modal.createComponent())
-
-        const submitted = await interaction.awaitModalSubmit({
-            time: 60000,
-          }).catch(error => {
-            console.error(error)
-            return null
-          })
-          
-        if (submitted) await this.onModalSubmitted(submitted)
+        this.#showRegisterModal(interaction)    
     }
 
     handleError(error, interaction) {
         
     }
 
-    async onModalSubmitted(interaction) {
+    #showRegisterModal(interaction) {
+        const modal = new LoginModalBuilder()
+
+        eventBus.registerEvent(
+            LoginModalBuilder.componentId, 
+            this.onRegisterModalSubmitted.bind(this)
+        )
+        
+        interaction.showModal(modal.createComponent())
+    }
+
+    async onRegisterModalSubmitted(interaction) {
         let fields = interaction.fields
 
         let email = fields.fields.get("email")

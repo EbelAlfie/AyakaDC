@@ -67,7 +67,7 @@ export async function checkIn(cookies) {
       headers: headers,
       redirect: "follow"
     };
-    
+
     return axios.post("https://sg-hk4e-api.hoyolab.com/event/sol/sign?lang=en-us", requestOptions)
     .then(result => {
       console.log(result)

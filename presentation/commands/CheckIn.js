@@ -1,9 +1,10 @@
 import { SlashCommandBuilder } from "discord.js"
-import { NoUserError } from "../../domain/CheckInResCode.js"
+import { NoUserError, ResponseSuccess } from "../../domain/CheckInResCode.js"
 import BaseCommand from "../models/BaseCommand.js"
 import { hoyoRepository } from "../../data/HoyolabRepository.js"
 import * as register from "./Register.js"
 import { TimeSpinner } from "../components/selection.js"
+import { eventBus } from "../models/EventBus.js"
 
 class CheckInCommand extends BaseCommand {
     data = new SlashCommandBuilder()
@@ -25,19 +26,29 @@ class CheckInCommand extends BaseCommand {
                 break; 
             }
             default: 
-                interaction.reply('Maaf yaa lagi error')
+                interaction.channel.send('Maaf yaa lagi error')
         }
     }
 
     #promptSelectTime(interaction) {
         const time = new TimeSpinner()
+
+        eventBus.registerEvent(
+            TimeSpinner.componentId, 
+            this.onTimeSelect.bind(this)
+        )
+
         interaction.reply({
             components: [time.createComponent()]
         })
     }
 
-    onTimeSelect(time) {
-        hoyoRepository.scheduleCheckIn(
+    onTimeSelect(interaction) {
+        const time = interaction.values[0]
+
+        interaction.reply("Sukses yaa")
+
+        hoyoRepository.startReminder(
             time,
             {
                 onSuccess: result => this.sendCheckInMessage(result, interaction),
@@ -47,9 +58,10 @@ class CheckInCommand extends BaseCommand {
     }
     
     sendCheckInMessage(result, interaction) {
-        let message = ""
+        let message = "Yahh gagal checkin"
+        console.log(result.data.message)
         if (result.retcode != ResponseSuccess)
-            message = result.message
+            message = result.data.message
         else 
             message = "Sukses check in ya, traveler"
     

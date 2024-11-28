@@ -1,4 +1,6 @@
-export const ChatInputHandler = async (interaction) => {
+import { eventBus } from "./models/EventBus.js";
+
+const ChatInputHandler = async (interaction) => {
     const command = interaction.client.commands.get(interaction.commandName);
 
     if (!command) {
@@ -19,5 +21,7 @@ export const ChatInputHandler = async (interaction) => {
 }
 
 export const CommandHandler = async (interaction) => {
+    if (interaction.isChatInputCommand()) ChatInputHandler(interaction)
     
+    eventBus.fireEvent(interaction.customId, interaction)
 }

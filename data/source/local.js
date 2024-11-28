@@ -1,7 +1,9 @@
 class Local {
     userData = new Map() //Pair of email and cookies
 
-    constructor() {}
+    constructor() {
+        
+    }
 
     allUsers() {
         return this.userData

@@ -1,13 +1,11 @@
 import { REST, Routes, Collection } from "discord.js";
-import { ChatInputHandler } from "./InteractionHandler.js";
+import { CommandHandler } from "./InteractionHandler.js";
 import { readdirSync } from "node:fs"
 import { pathToFileURL } from "url"
 import { join } from "node:path"
 import BaseCommand from "./models/BaseCommand.js";
 
 export class Soul {
-    isCheckIn = false
-
     /** Called when the bot has logged in */
     onReady(client) {
         console.log(`Logged in as ${client.user.tag}`) ;
@@ -56,7 +54,7 @@ export class Soul {
 
     /** Command handler */
     async command(interaction) {
-        if (interaction.isChatInputCommand()) ChatInputHandler(interaction);
+        CommandHandler(interaction) ;
     }
 
 }

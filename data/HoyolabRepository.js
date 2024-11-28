@@ -9,8 +9,7 @@ class HoyolabRepository {
 
     /** Public */
     startReminder(checkInTime, callback) {
-        time = Date.parse(checkInTime)
-        console.log(this.time)
+        const time = checkInTime.split(":")[0]
         setInterval(() => {
             let hourNow = new Date().getHours()
             console.log(time, hourNow)
@@ -60,7 +59,7 @@ class HoyolabRepository {
 
     /** Privates */
     #checkInAllUser(callback) {
-        let userData = localApi.getAllUsers()
+        let userData = localApi.allUsers()
         userData.forEach(item => {
             onlineApi.checkIn(item.join("; "))
             .catch(error => callback.onError(error))

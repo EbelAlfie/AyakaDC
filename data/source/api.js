@@ -12,8 +12,8 @@ class Api {
 
     #initApi() {}
 
-    checkIn() {
-        return checkIn()
+    checkIn(cookie) {
+        return checkIn(cookie)
     }
 
     async login(user) {
