@@ -9,7 +9,7 @@ class HoyolabRepository {
 
     /** Public */
     startReminder(checkInTime, callback) {
-        const time = checkInTime.split(":")[0]
+        const time = 9 //checkInTime.split(":")[0]
         setInterval(() => {
             let hourNow = new Date().getHours()
             console.log(time, hourNow)
@@ -17,7 +17,7 @@ class HoyolabRepository {
             if (time !== hourNow) return
             
             this.#checkInAllUser(callback)
-        }, 60000)
+        }, 10000)
     }
 
     async registerUser(userModel, callback) {

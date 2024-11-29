@@ -15,7 +15,7 @@ class CheckInCommand extends BaseCommand {
         if (hoyoRepository.noUserExist()) 
             this.handleError(NoUserError, interaction)
         else    
-            this.#promptSelectTime(interaction)
+            this.#showTimeSpinner(interaction)
     }
 
     async handleError(error, interaction) {
@@ -30,12 +30,12 @@ class CheckInCommand extends BaseCommand {
         }
     }
 
-    #promptSelectTime(interaction) {
+    #showTimeSpinner(interaction) {
         const time = new TimeSpinner()
 
         eventBus.registerEvent(
             TimeSpinner.componentId, 
-            this.onTimeSelect.bind(this)
+            this.onTimeSelected.bind(this)
         )
 
         interaction.reply({
@@ -43,7 +43,7 @@ class CheckInCommand extends BaseCommand {
         })
     }
 
-    onTimeSelect(interaction) {
+    onTimeSelected(interaction) {
         const time = interaction.values[0]
 
         interaction.reply("Sukses yaa")
@@ -59,7 +59,6 @@ class CheckInCommand extends BaseCommand {
     
     sendCheckInMessage(result, interaction) {
         let message = "Yahh gagal checkin"
-        console.log(result.data.message)
         if (result.retcode != ResponseSuccess)
             message = result.data.message
         else 
