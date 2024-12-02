@@ -8,10 +8,14 @@ import BaseCommand from "./models/BaseCommand.js";
 export class Soul {
     /** Called when the bot has logged in */
     onReady(client) {
-        client.user.setAvatar('assets/avatar.png');
-        client.user.setUsername("Katheryne");
+        //this.#setIdentity(client)
         console.log(`Logged in as ${client.user.tag}`) ;
         this.#registerCommand(client)
+    }
+
+    #setIdentity(client) {
+        client.user.setAvatar('assets/avatar.png');
+        client.user.setUsername("Katheryne");
     }
 
     async reply(interaction) {

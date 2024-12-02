@@ -17,7 +17,7 @@ class HoyolabRepository {
             if (time !== hourNow) return
             
             this.#checkInAllUser(callback)
-        }, 60000)
+        }, 3600000)
     }
 
     async registerUser(userModel, callback) {
